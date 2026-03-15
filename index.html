@@ -724,7 +724,12 @@ function copyText(el, btn) {
 async function callAI(system, userMsg) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "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",
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
+    },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
@@ -1036,6 +1041,25 @@ The body should be the complete email text including greeting and sign-off.`;
 
 mailBtn.addEventListener('click', doMail);
 mailRegen.addEventListener('click', doMail);
+</script>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBg6I0pSn0Wn6CQzUyyxAutgfQK6lyXhdM",
+    authDomain: "linguistpro-47fd8.firebaseapp.com",
+    projectId: "linguistpro-47fd8",
+    storageBucket: "linguistpro-47fd8.firebasestorage.app",
+    messagingSenderId: "363106526211",
+    appId: "1:363106526211:web:f67a8fac7f933216845a36",
+    measurementId: "G-X3Z53TVTDX"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 </script>
 </body>
 </html>
