@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LinguistPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+/* ── THEME VARIABLES ── */
+[data-theme="light"] {
+  --bg:          #F4F6F9;
+  --surface:     #FFFFFF;
+  --surface-2:   #F8F9FB;
+  --border:      #E4E7EC;
+  --border-soft: #EEF0F4;
+  --text:        #111827;
+  --text-2:      #374151;
+  --muted:       #6B7280;
+  --muted-lt:    #9CA3AF;
+  --input-bg:    #FFFFFF;
+  --shadow:      0 1px 4px rgba(0,0,0,0.06),0 4px 20px rgba(0,0,0,0.06);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.10);
+  --tab-hover:   #F0F4FF;
+  --chip-bg:     #FFFFFF;
+  --skl1:        #F0F0F0;
+  --skl2:        #E0E0E0;
+}
+[data-theme="dark"] {
+  --bg:          #0F1117;
+  --surface:     #1A1D26;
+  --surface-2:   #20242F;
+  --border:      #2A2F3D;
+  --border-soft: #232736;
+  --text:        #F1F3F9;
+  --text-2:      #C8CEDE;
+  --muted:       #7B8399;
+  --muted-lt:    #555E78;
+  --input-bg:    #1A1D26;
+  --shadow:      0 1px 4px rgba(0,0,0,0.3),0 4px 24px rgba(0,0,0,0.3);
+  --shadow-md:   0 4px 24px rgba(0,0,0,0.5);
+  --tab-hover:   #1E2230;
+  --chip-bg:     #20242F;
+  --skl1:        #252836;
+  --skl2:        #1E2130;
+}
+
+:root {
+  --teal:      #0097A7;
+  --teal-lt:   #E0F7FA;
+  --teal-glow: rgba(0,151,167,0.15);
+  --saffron:   #F4791F;
+  --navy:      #0D1B2A;
+  --green:     #16A34A;
+  --red:       #EF4444;
+  --radius:    12px;
+}
+[data-theme="dark"] {
+  --teal-lt: rgba(0,151,167,0.12);
+}
+
+body {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  transition:background 0.25s,color 0.25s;
+}
+
+/* ── HEADER ── */
+header {
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;top:0;z-index:20;
+  box-shadow:var(--shadow);
+  transition:background 0.25s,border-color 0.25s;
+}
+.logo {
+  display:flex;align-items:center;gap:9px;
+  font-weight:700;font-size:1rem;color:var(--text);
+  letter-spacing:-0.01em;text-decoration:none;
+}
+.logo-mark {
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--saffron),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+}
+.header-right{display:flex;align-items:center;gap:10px;}
+.status-dot {
+  display:flex;align-items:center;gap:5px;
+  font-size:0.72rem;color:var(--muted);
+}
+.status-dot span{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* Theme toggle */
+.theme-toggle {
+  width:36px;height:36px;border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--surface-2);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all 0.18s;color:var(--muted);
+}
+.theme-toggle:hover{border-color:var(--teal);color:var(--teal);}
+
+/* ── TABS ── */
+.tabs-wrapper {
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  display:flex;gap:4px;
+  transition:background 0.25s;
+}
+.tab-btn {
+  padding:14px 18px 12px;
+  border:none;background:transparent;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.85rem;font-weight:600;
+  color:var(--muted);cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all 0.18s;
+  display:flex;align-items:center;gap:7px;
+  margin-bottom:-1px;
+}
+.tab-btn:hover{color:var(--text);background:var(--tab-hover);border-radius:6px 6px 0 0;}
+.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal);}
+.tab-icon{font-size:14px;}
+
+/* ── MAIN ── */
+main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:24px 20px 48px;}
+
+/* ── PANELS (tab content) ── */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── TONE BAR ── */
+.control-bar {
+  display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;
+}
+.bar-label {
+  font-size:0.72rem;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.07em;margin-right:2px;white-space:nowrap;
+}
+.pill-btn {
+  padding:5px 14px;border-radius:20px;
+  border:1.5px solid var(--border);
+  background:var(--surface);color:var(--muted);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.78rem;font-weight:600;cursor:pointer;
+  transition:all 0.15s;white-space:nowrap;
+}
+.pill-btn:hover{border-color:var(--teal);color:var(--teal);}
+.pill-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(0,151,167,0.28);}
+
+/* ── TRANSLATOR BOX ── */
+.translator-box {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:1fr 48px 1fr;
+  min-height:340px;
+  transition:background 0.25s,border-color 0.25s;
+}
+.t-panel{display:flex;flex-direction:column;}
+.t-header {
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:48px;
+  background:var(--surface-2);
+  transition:background 0.25s;
+}
+.t-lang {
+  display:flex;align-items:center;gap:7px;
+  font-size:0.8rem;font-weight:700;color:var(--text-2);
+}
+.lang-dot{width:7px;height:7px;border-radius:50%;}
+.d-saffron{background:var(--saffron);}
+.d-teal{background:var(--teal);}
+.t-actions{display:flex;gap:6px;}
+.icon-btn {
+  width:28px;height:28px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:12px;color:var(--muted);
+  transition:all 0.15s;
+}
+.icon-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--muted-lt);}
+.icon-btn.ok{background:#DCFCE7;border-color:#86EFAC;color:var(--green);}
+
+textarea,.output-text {
+  flex:1;padding:16px 18px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.95rem;line-height:1.75;
+  color:var(--text);background:var(--input-bg);
+  border:none;outline:none;resize:none;
+  transition:background 0.25s,color 0.25s;
+}
+textarea::placeholder{color:var(--muted-lt);}
+.output-text{white-space:pre-wrap;word-break:break-word;overflow-y:auto;}
+.output-text.ph{color:var(--muted-lt);}
+
+.t-footer {
+  padding:9px 16px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:42px;background:var(--surface-2);
+  transition:background 0.25s;
+}
+.char-ct{font-size:0.72rem;color:var(--muted-lt);}
+.char-ct.warn{color:var(--saffron);}
+.go-btn {
+  padding:7px 18px;border-radius:7px;border:none;
+  background:var(--teal);color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.78rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+  box-shadow:0 2px 8px rgba(0,151,167,0.28);
+  transition:all 0.18s;
+}
+.go-btn:hover{background:#00838F;box-shadow:0 3px 14px rgba(0,151,167,0.4);}
+.go-btn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
+
+/* ── DIVIDER COL ── */
+.t-divider {
+  border-left:1px solid var(--border);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;
+  background:var(--surface-2);
+  transition:background 0.25s;
+}
+.swap-btn {
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface);
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all 0.2s;color:var(--muted);
+}
+.swap-btn:hover{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(0,151,167,0.35);}
+
+/* ── IMPROVEMENTS BAR ── */
+.impr-bar {
+  display:none;align-items:center;gap:7px;flex-wrap:wrap;
+  background:var(--teal-lt);border-top:1px solid rgba(0,151,167,0.2);
+  padding:9px 16px;font-size:0.75rem;color:var(--teal);
+  transition:background 0.25s;
+}
+.impr-bar.show{display:flex;}
+.impr-bar strong{font-weight:700;white-space:nowrap;}
+.impr-tag {
+  background:var(--surface);border:1px solid rgba(0,151,167,0.25);
+  border-radius:20px;padding:2px 9px;font-size:0.7rem;font-weight:600;color:var(--teal);
+}
+.quality-pill {
+  display:none;align-items:center;gap:4px;
+  font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:20px;
+}
+.quality-pill.show{display:flex;}
+.quality-pill.hi{background:#DCFCE7;color:#15803D;}
+.quality-pill.md{background:#FEF9C3;color:#A16207;}
+[data-theme="dark"] .quality-pill.hi{background:rgba(22,163,74,0.18);color:#4ADE80;}
+[data-theme="dark"] .quality-pill.md{background:rgba(234,179,8,0.15);color:#FCD34D;}
+
+/* ── SKELETON ── */
+.skeleton-wrap{display:flex;flex-direction:column;gap:10px;padding:16px 18px;}
+.skel{height:13px;border-radius:5px;background:linear-gradient(90deg,var(--skl1) 25%,var(--skl2) 50%,var(--skl1) 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── ERROR BAR ── */
+.error-bar {
+  display:none;align-items:center;gap:8px;
+  background:#FEF2F2;border:1px solid #FECACA;
+  border-radius:8px;padding:9px 14px;
+  font-size:0.8rem;color:var(--red);margin-top:10px;
+}
+.error-bar.show{display:flex;}
+[data-theme="dark"] .error-bar{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);}
+
+/* ── EXAMPLES ── */
+.examples-row{display:flex;align-items:flex-start;gap:7px;margin-top:13px;flex-wrap:wrap;}
+.ex-label{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;margin-top:3px;}
+.ex-chip {
+  padding:4px 12px;border-radius:20px;
+  border:1px solid var(--border);background:var(--chip-bg);
+  font-size:0.75rem;color:var(--muted);cursor:pointer;
+  transition:all 0.14s;
+}
+.ex-chip:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-lt);}
+
+/* ── TRANSLATE TAB: lang selector ── */
+.lang-selector-bar {
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;
+}
+.lang-select-group{display:flex;align-items:center;gap:7px;}
+.lang-select-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
+.lang-select {
+  padding:6px 12px;border-radius:8px;
+  border:1.5px solid var(--border);
+  background:var(--surface);color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.82rem;font-weight:600;cursor:pointer;
+  outline:none;transition:all 0.15s;
+}
+.lang-select:focus{border-color:var(--teal);}
+[data-theme="dark"] .lang-select{background:var(--surface-2);}
+.swap-lang-btn {
+  width:32px;height:32px;border-radius:8px;
+  border:1.5px solid var(--border);background:var(--surface);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--muted);transition:all 0.15s;
+}
+.swap-lang-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-lt);}
+
+/* ── MAIL WRITER ── */
+.mail-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+
+.mail-form-card, .mail-output-card {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:background 0.25s,border-color 0.25s;
+}
+.card-header {
+  padding:13px 18px;border-bottom:1px solid var(--border);
+  background:var(--surface-2);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.25s;
+}
+.card-title{font-size:0.82rem;font-weight:700;color:var(--text-2);display:flex;align-items:center;gap:7px;}
+.card-body{padding:18px;display:flex;flex-direction:column;gap:14px;flex:1;}
+
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+.form-input, .form-select, .form-textarea {
+  padding:9px 12px;border-radius:8px;
+  border:1.5px solid var(--border);
+  background:var(--input-bg);color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;
+  outline:none;transition:border-color 0.15s,background 0.25s;
+  width:100%;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--teal);}
+.form-textarea{resize:vertical;min-height:130px;line-height:1.65;}
+[data-theme="dark"] .form-input,[data-theme="dark"] .form-select,[data-theme="dark"] .form-textarea{background:var(--surface-2);}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+.mail-go-btn {
+  padding:11px;border-radius:8px;border:none;
+  background:var(--teal);color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.88rem;font-weight:700;cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,151,167,0.3);
+  transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.mail-go-btn:hover{background:#00838F;box-shadow:0 4px 16px rgba(0,151,167,0.42);}
+.mail-go-btn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
+
+/* mail output */
+.mail-output-inner{flex:1;padding:18px;overflow-y:auto;}
+.mail-output-inner pre{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;
+  line-height:1.8;white-space:pre-wrap;word-break:break-word;
+  color:var(--text);
+}
+.mail-output-inner.ph{color:var(--muted-lt);font-size:0.88rem;padding:20px 18px;}
+.mail-card-footer{
+  padding:10px 16px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface-2);transition:background 0.25s;
+}
+.mail-meta{font-size:0.72rem;color:var(--muted-lt);}
+
+/* subject line highlight */
+.subject-highlight {
+  background:var(--teal-lt);border-radius:6px;
+  padding:7px 12px;margin-bottom:14px;
+  font-size:0.82rem;color:var(--teal);font-weight:600;
+  display:none;
+}
+.subject-highlight.show{display:block;}
+[data-theme="dark"] .subject-highlight{color:#4DD0E1;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:780px){
+  .translator-box{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
+  .t-divider{width:100%;height:48px;flex-direction:row;border-left:none;border-right:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .swap-btn{transform:rotate(90deg);}
+  .mail-layout{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .tabs-wrapper{padding:0 12px;}
+  .tab-btn{padding:12px 10px 10px;font-size:0.78rem;}
+  main{padding:16px 12px 40px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">🌐</div>
+    LinguistPro
+  </a>
+  <div class="header-right">
+    <div class="status-dot"><span></span> AI Ready</div>
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <button class="tab-btn active" data-tab="improve"><span class="tab-icon">✨</span> Improve</button>
+  <button class="tab-btn" data-tab="translate"><span class="tab-icon">🔁</span> Translate</button>
+  <button class="tab-btn" data-tab="mail"><span class="tab-icon">✉️</span> Mail Writer</button>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════════
+     TAB 1 — IMPROVE
+══════════════════════════════════════ -->
+<div class="tab-panel active" id="tab-improve">
+
+  <div class="control-bar">
+    <span class="bar-label">Tone</span>
+    <button class="pill-btn active" data-tone="Formal">Formal</button>
+    <button class="pill-btn" data-tone="Friendly">Friendly</button>
+    <button class="pill-btn" data-tone="Urgent">Urgent</button>
+    <button class="pill-btn" data-tone="Diplomatic">Diplomatic</button>
+    <button class="pill-btn" data-tone="Concise">Concise</button>
+  </div>
+
+  <div class="translator-box">
+    <!-- Input -->
+    <div class="t-panel">
+      <div class="t-header">
+        <div class="t-lang"><span class="lang-dot d-saffron"></span>Hindi / Gujarati / Hinglish</div>
+        <div class="t-actions">
+          <button class="icon-btn" id="imp-clear" title="Clear">✕</button>
+        </div>
+      </div>
+      <textarea id="imp-input" placeholder="Write in Hindi, Gujarati, Hinglish, or rough English…&#10;&#10;e.g. Bhai payment aaya nahi, jaldi bhejo" maxlength="2000" spellcheck="false"></textarea>
+      <div class="t-footer">
+        <span class="char-ct" id="imp-chars">0 / 2000</span>
+        <button class="go-btn" id="imp-btn" disabled>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5h10M7 2l4.5 4.5L7 11" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Improve
+        </button>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="t-divider">
+      <button class="swap-btn" id="imp-go" title="Improve (Ctrl+Enter)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- Output -->
+    <div class="t-panel">
+      <div class="t-header">
+        <div class="t-lang"><span class="lang-dot d-teal"></span>Polished Professional English</div>
+        <div class="t-actions">
+          <div class="quality-pill" id="imp-quality"></div>
+          <button class="icon-btn" id="imp-copy" title="Copy">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="output-text ph" id="imp-output">Improved text will appear here…</div>
+      <div class="impr-bar" id="imp-impr"></div>
+      <div class="t-footer">
+        <span class="char-ct" id="imp-out-chars"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-bar" id="imp-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="imp-error-msg"></span></div>
+
+  <div class="examples-row">
+    <span class="ex-label">Try</span>
+    <span class="ex-chip" data-text="Bhai payment aaya nahi abhi tak, jaldi bhejo please">Payment reminder</span>
+    <span class="ex-chip" data-text="aapno maal mane nahi game, quality barabar nathi">Quality complaint</span>
+    <span class="ex-chip" data-text="Wanted to touch base re the project, things are bit delayed sorry">Delay apology</span>
+    <span class="ex-chip" data-text="yr price zyada ho gaya, thoda discount milega kya">Price negotiation</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 2 — TRANSLATE
+══════════════════════════════════════ -->
+<div class="tab-panel" id="tab-translate">
+
+  <div class="lang-selector-bar">
+    <div class="lang-select-group">
+      <span class="lang-select-label">From</span>
+      <select class="lang-select" id="tr-from">
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Gujarati">Gujarati</option>
+        <option value="Hinglish">Hinglish</option>
+      </select>
+    </div>
+    <button class="swap-lang-btn" id="tr-swap" title="Swap languages">⇄</button>
+    <div class="lang-select-group">
+      <span class="lang-select-label">To</span>
+      <select class="lang-select" id="tr-to">
+        <option value="Hindi">Hindi</option>
+        <option value="Gujarati">Gujarati</option>
+        <option value="English">English</option>
+        <option value="Formal English">Formal English</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="translator-box">
+    <div class="t-panel">
+      <div class="t-header">
+        <div class="t-lang" id="tr-from-label"><span class="lang-dot d-saffron"></span>English</div>
+        <div class="t-actions">
+          <button class="icon-btn" id="tr-clear" title="Clear">✕</button>
+        </div>
+      </div>
+      <textarea id="tr-input" placeholder="Type text to translate…" maxlength="2000" spellcheck="false"></textarea>
+      <div class="t-footer">
+        <span class="char-ct" id="tr-chars">0 / 2000</span>
+        <button class="go-btn" id="tr-btn" disabled>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5h10M7 2l4.5 4.5L7 11" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Translate
+        </button>
+      </div>
+    </div>
+
+    <div class="t-divider">
+      <button class="swap-btn" id="tr-go" title="Translate">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="t-panel">
+      <div class="t-header">
+        <div class="t-lang" id="tr-to-label"><span class="lang-dot d-teal"></span>Hindi</div>
+        <div class="t-actions">
+          <button class="icon-btn" id="tr-copy" title="Copy">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="output-text ph" id="tr-output">Translation will appear here…</div>
+      <div class="t-footer">
+        <span class="char-ct" id="tr-out-chars"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-bar" id="tr-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="tr-error-msg"></span></div>
+
+  <div class="examples-row">
+    <span class="ex-label">Try</span>
+    <span class="ex-chip" id="tr-ex1">Payment is overdue, please send immediately</span>
+    <span class="ex-chip" id="tr-ex2">Can we schedule a meeting tomorrow?</span>
+    <span class="ex-chip" id="tr-ex3">aapka maal abhi tak nahi aaya</span>
+    <span class="ex-chip" id="tr-ex4">Mane discount joiye chhe</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 3 — MAIL WRITER
+══════════════════════════════════════ -->
+<div class="tab-panel" id="tab-mail">
+  <div class="mail-layout">
+
+    <!-- LEFT: Form -->
+    <div class="mail-form-card">
+      <div class="card-header">
+        <div class="card-title">✉️ Mail Details</div>
+      </div>
+      <div class="card-body">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">To (Recipient)</label>
+            <input class="form-input" id="mail-to" type="text" placeholder="e.g. Client, Supplier, Boss"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Purpose</label>
+            <select class="form-select" id="mail-purpose">
+              <option value="Follow up on payment">Follow up on payment</option>
+              <option value="Send quotation/invoice">Send quotation / invoice</option>
+              <option value="Introduce my business">Introduce my business</option>
+              <option value="Apologize for delay">Apologize for delay</option>
+              <option value="Request a meeting">Request a meeting</option>
+              <option value="Complaint about quality">Complaint about quality</option>
+              <option value="Ask for discount">Ask for discount / negotiation</option>
+              <option value="Thank you message">Thank you message</option>
+              <option value="Order confirmation">Order confirmation</option>
+              <option value="Custom">Custom (see key points)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tone</label>
+            <select class="form-select" id="mail-tone">
+              <option value="Formal and professional">Formal & Professional</option>
+              <option value="Friendly but professional">Friendly but Professional</option>
+              <option value="Firm and urgent">Firm & Urgent</option>
+              <option value="Polite and diplomatic">Polite & Diplomatic</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Language</label>
+            <select class="form-select" id="mail-lang">
+              <option value="English">English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Gujarati">Gujarati</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Key Points / Context <span style="font-weight:400;text-transform:none;letter-spacing:0">(any language)</span></label>
+          <textarea class="form-textarea" id="mail-points" placeholder="Add key points in any language…&#10;&#10;e.g. &#10;- Payment of ₹50,000 pending since 15 days&#10;- Already reminded twice&#10;- Need payment by Friday&#10;- Client name: Rajesh bhai"></textarea>
+        </div>
+
+        <button class="mail-go-btn" id="mail-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Generate Email
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Output -->
+    <div class="mail-output-card">
+      <div class="card-header">
+        <div class="card-title">📬 Generated Email</div>
+        <button class="icon-btn" id="mail-copy" title="Copy email">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="subject-highlight" id="mail-subject"></div>
+      <div class="mail-output-inner ph" id="mail-output">Your generated email will appear here.<br><br>Fill in the details on the left and click <strong>Generate Email</strong>.</div>
+      <div class="mail-card-footer">
+        <span class="mail-meta" id="mail-meta"></span>
+        <button class="go-btn" id="mail-regen" style="display:none">↺ Regenerate</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-bar" id="mail-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="mail-error-msg"></span></div>
+</div>
+
+</main>
+
+<script>
+// ── THEME ──
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+let dark = false;
+themeToggle.addEventListener('click', () => {
+  dark = !dark;
+  html.setAttribute('data-theme', dark ? 'dark' : 'light');
+  themeToggle.textContent = dark ? '☀️' : '🌙';
+});
+
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── HELPERS ──
+function skeleton(el) {
+  el.className = el.className.replace('ph','');
+  el.innerHTML = `<div class="skeleton-wrap"><div class="skel" style="width:88%"></div><div class="skel" style="width:72%"></div><div class="skel" style="width:82%"></div><div class="skel" style="width:60%"></div></div>`;
+}
+function clearSkel(el, text, placeholder) {
+  el.innerHTML = '';
+  if (text) {
+    el.classList.remove('ph');
+    el.textContent = text;
+  } else {
+    el.classList.add('ph');
+    el.textContent = placeholder;
+  }
+}
+function showErr(bar, msgEl, msg) {
+  msgEl.textContent = msg;
+  bar.classList.add('show');
+}
+function hideErr(bar) { bar.classList.remove('show'); }
+
+function copyText(el, btn) {
+  const txt = el.textContent || el.innerText;
+  if (!txt || el.classList.contains('ph')) return;
+  navigator.clipboard.writeText(txt).then(() => {
+    const orig = btn.innerHTML;
+    btn.classList.add('ok');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5l3.5 3.5 6-7" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    setTimeout(() => { btn.classList.remove('ok'); btn.innerHTML = orig; }, 2000);
+  });
+}
+
+async function callAI(system, userMsg) {
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      system,
+      messages: [{ role: "user", content: userMsg }]
+    })
+  });
+  if (!res.ok) {
+    const e = await res.json().catch(() => ({}));
+    throw new Error(e?.error?.message || `Error ${res.status}`);
+  }
+  const data = await res.json();
+  return data.content?.[0]?.text || '';
+}
+
+// ══════════════════════
+// TAB 1 — IMPROVE
+// ══════════════════════
+const impInput   = document.getElementById('imp-input');
+const impOutput  = document.getElementById('imp-output');
+const impBtn     = document.getElementById('imp-btn');
+const impGo      = document.getElementById('imp-go');
+const impClear   = document.getElementById('imp-clear');
+const impCopy    = document.getElementById('imp-copy');
+const impChars   = document.getElementById('imp-chars');
+const impOutChars= document.getElementById('imp-out-chars');
+const impError   = document.getElementById('imp-error');
+const impErrorMsg= document.getElementById('imp-error-msg');
+const impQuality = document.getElementById('imp-quality');
+const impImpr    = document.getElementById('imp-impr');
+let impTone = 'Formal';
+let impBusy = false;
+
+document.querySelectorAll('#tab-improve .pill-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('#tab-improve .pill-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); impTone = b.dataset.tone;
+  });
+});
+
+impInput.addEventListener('input', () => {
+  const l = impInput.value.length;
+  impChars.textContent = `${l} / 2000`;
+  impChars.classList.toggle('warn', l > 1800);
+  impBtn.disabled = l === 0 || impBusy;
+  hideErr(impError);
+});
+
+impClear.addEventListener('click', () => {
+  impInput.value = ''; impChars.textContent = '0 / 2000';
+  impBtn.disabled = true;
+  clearSkel(impOutput, null, 'Improved text will appear here…');
+  impOutChars.textContent = '';
+  impQuality.className = 'quality-pill';
+  impImpr.classList.remove('show');
+  hideErr(impError);
+});
+
+impCopy.addEventListener('click', () => copyText(impOutput, impCopy));
+
+document.querySelectorAll('#tab-improve .ex-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    impInput.value = c.dataset.text;
+    impInput.dispatchEvent(new Event('input'));
+  });
+});
+
+async function doImprove() {
+  const txt = impInput.value.trim();
+  if (!txt || impBusy) return;
+  impBusy = true; impBtn.disabled = true;
+  hideErr(impError); impImpr.classList.remove('show');
+  impQuality.className = 'quality-pill';
+  skeleton(impOutput);
+
+  const sys = `You are a professional English editor for Indian business owners (Hindi/Gujarati speakers).
+Task: Convert the user's input (Hindi, Gujarati, Hinglish, or rough English) into polished professional English.
+Tone: ${impTone}.
+Rules: Preserve EXACT meaning. Return ONLY valid JSON, no markdown:
+{"output":"...","improvements":["tag1","tag2","tag3"],"quality":"high|medium"}
+improvements = up to 4 short tags of what was changed.
+quality = "high" if meaning was fully clear, "medium" if you had to assume something.`;
+
+  try {
+    const raw = await callAI(sys, txt);
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    clearSkel(impOutput, parsed.output, '');
+    impOutChars.textContent = `${parsed.output.length} chars`;
+    impQuality.className = `quality-pill show ${parsed.quality === 'high' ? 'hi' : 'md'}`;
+    impQuality.textContent = parsed.quality === 'high' ? '✓ High Accuracy' : '~ Assumptions made';
+    if (parsed.improvements?.length) {
+      impImpr.innerHTML = `<strong>Improved:</strong>` + parsed.improvements.map(i=>`<span class="impr-tag">${i}</span>`).join('');
+      impImpr.classList.add('show');
+    }
+  } catch(e) {
+    clearSkel(impOutput, null, 'Improved text will appear here…');
+    showErr(impError, impErrorMsg, e.message || 'Something went wrong. Please try again.');
+  } finally {
+    impBusy = false;
+    impBtn.disabled = impInput.value.trim().length === 0;
+  }
+}
+
+impBtn.addEventListener('click', doImprove);
+impGo.addEventListener('click', doImprove);
+impInput.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='Enter') doImprove(); });
+
+// ══════════════════════
+// TAB 2 — TRANSLATE
+// ══════════════════════
+const trInput    = document.getElementById('tr-input');
+const trOutput   = document.getElementById('tr-output');
+const trBtn      = document.getElementById('tr-btn');
+const trGo       = document.getElementById('tr-go');
+const trClear    = document.getElementById('tr-clear');
+const trCopy     = document.getElementById('tr-copy');
+const trChars    = document.getElementById('tr-chars');
+const trOutChars = document.getElementById('tr-out-chars');
+const trError    = document.getElementById('tr-error');
+const trErrorMsg = document.getElementById('tr-error-msg');
+const trFrom     = document.getElementById('tr-from');
+const trTo       = document.getElementById('tr-to');
+const trFromLbl  = document.getElementById('tr-from-label');
+const trToLbl    = document.getElementById('tr-to-label');
+const trSwap     = document.getElementById('tr-swap');
+let trBusy = false;
+
+function updateLangLabels() {
+  trFromLbl.innerHTML = `<span class="lang-dot d-saffron"></span>${trFrom.value}`;
+  trToLbl.innerHTML   = `<span class="lang-dot d-teal"></span>${trTo.value}`;
+}
+trFrom.addEventListener('change', updateLangLabels);
+trTo.addEventListener('change', updateLangLabels);
+
+trSwap.addEventListener('click', () => {
+  // swap select values where possible
+  const fromVal = trFrom.value;
+  const toVal   = trTo.value;
+  // check if toVal exists in trFrom options
+  const fromOpts = [...trFrom.options].map(o=>o.value);
+  const toOpts   = [...trTo.options].map(o=>o.value);
+  if (toOpts.includes(fromVal) && fromOpts.includes(toVal)) {
+    trFrom.value = toVal; trTo.value = fromVal;
+  } else {
+    // fallback: try best match
+    if (fromOpts.includes(toVal)) trFrom.value = toVal;
+    if (toOpts.includes(fromVal)) trTo.value = fromVal;
+  }
+  // also swap textarea contents
+  const tmp = trInput.value;
+  const outTxt = trOutput.classList.contains('ph') ? '' : trOutput.textContent;
+  trInput.value = outTxt;
+  clearSkel(trOutput, tmp || null, 'Translation will appear here…');
+  trInput.dispatchEvent(new Event('input'));
+  updateLangLabels();
+});
+
+trInput.addEventListener('input', () => {
+  const l = trInput.value.length;
+  trChars.textContent = `${l} / 2000`;
+  trChars.classList.toggle('warn', l > 1800);
+  trBtn.disabled = l === 0 || trBusy;
+  hideErr(trError);
+});
+
+trClear.addEventListener('click', () => {
+  trInput.value = ''; trChars.textContent = '0 / 2000';
+  trBtn.disabled = true;
+  clearSkel(trOutput, null, 'Translation will appear here…');
+  trOutChars.textContent = '';
+  hideErr(trError);
+});
+
+trCopy.addEventListener('click', () => copyText(trOutput, trCopy));
+
+// example chips for translate
+document.getElementById('tr-ex1').addEventListener('click', () => {
+  trInput.value = 'Payment is overdue, please send it immediately';
+  trInput.dispatchEvent(new Event('input'));
+});
+document.getElementById('tr-ex2').addEventListener('click', () => {
+  trInput.value = 'Can we schedule a meeting tomorrow?';
+  trInput.dispatchEvent(new Event('input'));
+});
+document.getElementById('tr-ex3').addEventListener('click', () => {
+  trInput.value = 'aapka maal abhi tak nahi aaya';
+  trFrom.value = 'Hindi'; trTo.value = 'English'; updateLangLabels();
+  trInput.dispatchEvent(new Event('input'));
+});
+document.getElementById('tr-ex4').addEventListener('click', () => {
+  trInput.value = 'Mane discount joiye chhe';
+  trFrom.value = 'Gujarati'; trTo.value = 'English'; updateLangLabels();
+  trInput.dispatchEvent(new Event('input'));
+});
+
+async function doTranslate() {
+  const txt = trInput.value.trim();
+  if (!txt || trBusy) return;
+  trBusy = true; trBtn.disabled = true;
+  hideErr(trError);
+  skeleton(trOutput);
+
+  const sys = `You are a precise translator for Indian business communication.
+Translate the user's text from ${trFrom.value} to ${trTo.value}.
+Rules:
+- Preserve the exact meaning and business context.
+- If translating to English, use natural professional English.
+- If translating to Hindi, use Devanagari script with natural Hindi.
+- If translating to Gujarati, use Gujarati script.
+- For "Formal English", make it polished and business-appropriate.
+Return ONLY the translated text. No explanations, no notes, no markdown.`;
+
+  try {
+    const result = await callAI(sys, txt);
+    clearSkel(trOutput, result.trim(), '');
+    trOutChars.textContent = `${result.trim().length} chars`;
+  } catch(e) {
+    clearSkel(trOutput, null, 'Translation will appear here…');
+    showErr(trError, trErrorMsg, e.message || 'Something went wrong. Please try again.');
+  } finally {
+    trBusy = false;
+    trBtn.disabled = trInput.value.trim().length === 0;
+  }
+}
+
+trBtn.addEventListener('click', doTranslate);
+trGo.addEventListener('click', doTranslate);
+trInput.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='Enter') doTranslate(); });
+
+// ══════════════════════
+// TAB 3 — MAIL WRITER
+// ══════════════════════
+const mailBtn     = document.getElementById('mail-btn');
+const mailRegen   = document.getElementById('mail-regen');
+const mailCopy    = document.getElementById('mail-copy');
+const mailOutput  = document.getElementById('mail-output');
+const mailSubject = document.getElementById('mail-subject');
+const mailMeta    = document.getElementById('mail-meta');
+const mailError   = document.getElementById('mail-error');
+const mailErrorMsg= document.getElementById('mail-error-msg');
+let mailBusy = false;
+
+mailCopy.addEventListener('click', () => {
+  let text = '';
+  if (!mailSubject.classList.contains('show') && mailOutput.classList.contains('ph')) return;
+  if (mailSubject.classList.contains('show')) text += mailSubject.textContent + '\n\n';
+  text += mailOutput.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = mailCopy.innerHTML;
+    mailCopy.classList.add('ok');
+    mailCopy.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5l3.5 3.5 6-7" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    setTimeout(() => { mailCopy.classList.remove('ok'); mailCopy.innerHTML = orig; }, 2000);
+  });
+});
+
+async function doMail() {
+  if (mailBusy) return;
+  const to      = document.getElementById('mail-to').value.trim() || 'the recipient';
+  const purpose = document.getElementById('mail-purpose').value;
+  const tone    = document.getElementById('mail-tone').value;
+  const lang    = document.getElementById('mail-lang').value;
+  const points  = document.getElementById('mail-points').value.trim();
+
+  mailBusy = true;
+  mailBtn.disabled = true; mailRegen.disabled = true;
+  hideErr(mailError);
+  mailSubject.classList.remove('show');
+  mailOutput.classList.remove('ph');
+  mailOutput.innerHTML = `<div class="skeleton-wrap"><div class="skel" style="width:55%"></div><br><div class="skel" style="width:90%"></div><div class="skel" style="width:85%"></div><div class="skel" style="width:78%"></div><div class="skel" style="width:92%"></div><br><div class="skel" style="width:70%"></div><div class="skel" style="width:60%"></div><br><div class="skel" style="width:40%"></div></div>`;
+  mailMeta.textContent = 'Generating…';
+
+  const sys = `You are an expert business email writer for Indian entrepreneurs.
+Write a complete, professional email in ${lang}.
+Tone: ${tone}.
+Purpose: ${purpose}.
+Recipient: ${to}.
+${points ? `Key points/context provided by user:\n${points}` : ''}
+
+Rules:
+- Write a full email with proper greeting, body, and closing.
+- Include a clear, relevant subject line.
+- Be culturally appropriate for Indian business context.
+- Preserve all specific details (amounts, dates, names) exactly as provided.
+- Return ONLY valid JSON (no markdown):
+{"subject":"...","body":"..."}
+The body should be the complete email text including greeting and sign-off.`;
+
+  try {
+    const raw = await callAI(sys, `Write the email. To: ${to}. Purpose: ${purpose}. ${points ? 'Key points: ' + points : ''}`);
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    mailSubject.textContent = `Subject: ${parsed.subject}`;
+    mailSubject.classList.add('show');
+    mailOutput.classList.remove('ph');
+    mailOutput.innerHTML = `<pre>${parsed.body}</pre>`;
+    mailMeta.textContent = `~${parsed.body.split(' ').length} words`;
+    mailRegen.style.display = 'flex';
+  } catch(e) {
+    mailOutput.classList.add('ph');
+    mailOutput.innerHTML = 'Your generated email will appear here.<br><br>Fill in the details on the left and click <strong>Generate Email</strong>.';
+    mailSubject.classList.remove('show');
+    mailMeta.textContent = '';
+    showErr(mailError, mailErrorMsg, e.message || 'Something went wrong. Please try again.');
+  } finally {
+    mailBusy = false;
+    mailBtn.disabled = false;
+    if (mailRegen.style.display !== 'none') mailRegen.disabled = false;
+  }
+}
+
+mailBtn.addEventListener('click', doMail);
+mailRegen.addEventListener('click', doMail);
+</script>
+</body>
+</html>
