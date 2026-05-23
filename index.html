@@ -1,1065 +1,1177 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LinguistPro</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0b14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Command Center | Sahil</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ29tbWFuZCBDZW50ZXIiLCJzaG9ydF9uYW1lIjoiQ29tbWFuZCIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGIwYjE0IiwidGhlbWVfY29sb3IiOiIjMGIwYjE0In0=">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg-primary:#0b0b14;
+  --bg-secondary:#13131f;
+  --bg-tertiary:#1a1a2e;
+  --bg-card:#1e1e32;
+  --bg-hover:#252545;
+  --border:#2a2a45;
+  --text-primary:#f1f5f9;
+  --text-secondary:#94a3b8;
+  --text-muted:#64748b;
+  --accent:#8b5cf6;
+  --accent-hover:#7c3aed;
+  --accent-glow:rgba(139,92,246,0.15);
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --critical:#f43f5e;
+  --info:#3b82f6;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg:0 12px 48px rgba(0,0,0,0.6);
+  --transition:all 0.2s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow:hidden;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ── THEME VARIABLES ── */
-[data-theme="light"] {
-  --bg:          #F4F6F9;
-  --surface:     #FFFFFF;
-  --surface-2:   #F8F9FB;
-  --border:      #E4E7EC;
-  --border-soft: #EEF0F4;
-  --text:        #111827;
-  --text-2:      #374151;
-  --muted:       #6B7280;
-  --muted-lt:    #9CA3AF;
-  --input-bg:    #FFFFFF;
-  --shadow:      0 1px 4px rgba(0,0,0,0.06),0 4px 20px rgba(0,0,0,0.06);
-  --shadow-md:   0 4px 20px rgba(0,0,0,0.10);
-  --tab-hover:   #F0F4FF;
-  --chip-bg:     #FFFFFF;
-  --skl1:        #F0F0F0;
-  --skl2:        #E0E0E0;
-}
-[data-theme="dark"] {
-  --bg:          #0F1117;
-  --surface:     #1A1D26;
-  --surface-2:   #20242F;
-  --border:      #2A2F3D;
-  --border-soft: #232736;
-  --text:        #F1F3F9;
-  --text-2:      #C8CEDE;
-  --muted:       #7B8399;
-  --muted-lt:    #555E78;
-  --input-bg:    #1A1D26;
-  --shadow:      0 1px 4px rgba(0,0,0,0.3),0 4px 24px rgba(0,0,0,0.3);
-  --shadow-md:   0 4px 24px rgba(0,0,0,0.5);
-  --tab-hover:   #1E2230;
-  --chip-bg:     #20242F;
-  --skl1:        #252836;
-  --skl2:        #1E2130;
-}
+/* Login */
+.login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg-primary);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-bg{position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(139,92,246,0.08),transparent 50%),radial-gradient(circle at 80% 20%,rgba(59,130,246,0.06),transparent 50%)}
+.login-card{position:relative;width:100%;max-width:420px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-lg);animation:slideUp 0.5s ease}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.login-logo span{color:var(--accent)}
+.login-subtitle{color:var(--text-secondary);font-size:14px;margin-bottom:28px;line-height:1.5}
+.login-field{margin-bottom:18px}
+.login-field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:6px}
+.login-field input{width:100%;padding:12px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;outline:none;transition:var(--transition)}
+.login-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.btn{width:100%;padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg-hover);color:var(--text-primary);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+.btn-sm{padding:8px 14px;font-size:13px;width:auto}
+.btn-danger{background:var(--danger)}
+.btn-danger:hover{background:#dc2626}
+.login-footer{margin-top:20px;text-align:center;font-size:13px;color:var(--text-muted)}
+.login-footer a{color:var(--accent);cursor:pointer;text-decoration:none;font-weight:600}
+.login-footer a:hover{text-decoration:underline}
+.demo-banner{margin-top:16px;padding:12px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:var(--radius-sm);font-size:13px;color:var(--text-secondary);text-align:center;line-height:1.5}
 
-:root {
-  --teal:      #0097A7;
-  --teal-lt:   #E0F7FA;
-  --teal-glow: rgba(0,151,167,0.15);
-  --saffron:   #F4791F;
-  --navy:      #0D1B2A;
-  --green:     #16A34A;
-  --red:       #EF4444;
-  --radius:    12px;
-}
-[data-theme="dark"] {
-  --teal-lt: rgba(0,151,167,0.12);
-}
+/* App Layout */
+.app{display:flex;height:100vh;opacity:0;transition:opacity 0.3s}
+.app.active{opacity:1}
+.sidebar{width:260px;background:var(--bg-secondary);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;transition:var(--transition);z-index:800}
+.sidebar-header{padding:20px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.logo-icon{width:32px;height:32px;background:var(--accent);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px}
+.logo-text{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+.nav{flex:1;overflow-y:auto;padding:16px 12px}
+.nav-group{margin-bottom:24px}
+.nav-label{padding:0 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);color:var(--text-secondary);font-size:14px;font-weight:500;margin-bottom:4px;border-left:3px solid transparent}
+.nav-item:hover{background:var(--bg-hover);color:var(--text-primary)}
+.nav-item.active{background:var(--accent-glow);color:var(--accent);border-left-color:var(--accent)}
+.nav-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition)}
+.user-card:hover{background:var(--bg-hover)}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:13px;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role{font-size:12px;color:var(--text-muted)}
 
-body {
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  transition:background 0.25s,color 0.25s;
-}
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.header{height:64px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.header-left{display:flex;align-items:center;gap:16px;flex:1}
+.header-title{font-size:18px;font-weight:800}
+.search-box{position:relative;max-width:400px;width:100%}
+.search-box input{width:100%;padding:10px 14px 10px 38px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;outline:none;transition:var(--transition)}
+.search-box input:focus{border-color:var(--accent)}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);width:16px;height:16px;stroke-width:2;fill:none}
+.header-right{display:flex;align-items:center;gap:12px}
+.icon-btn{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);color:var(--text-secondary);cursor:pointer;transition:var(--transition);position:relative}
+.icon-btn:hover{background:var(--bg-hover);color:var(--text-primary)}
+.icon-btn svg{width:18px;height:18px;stroke-width:2;fill:none}
+.badge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;padding:0 5px;background:var(--critical);color:#fff;font-size:11px;font-weight:700;border-radius:9px;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-secondary)}
+.content{flex:1;overflow-y:auto;padding:24px}
 
-/* ── HEADER ── */
-header {
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 24px;
-  height:56px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;top:0;z-index:20;
-  box-shadow:var(--shadow);
-  transition:background 0.25s,border-color 0.25s;
-}
-.logo {
-  display:flex;align-items:center;gap:9px;
-  font-weight:700;font-size:1rem;color:var(--text);
-  letter-spacing:-0.01em;text-decoration:none;
-}
-.logo-mark {
-  width:28px;height:28px;border-radius:7px;
-  background:linear-gradient(135deg,var(--saffron),var(--teal));
-  display:flex;align-items:center;justify-content:center;font-size:13px;
-}
-.header-right{display:flex;align-items:center;gap:10px;}
-.status-dot {
-  display:flex;align-items:center;gap:5px;
-  font-size:0.72rem;color:var(--muted);
-}
-.status-dot span{width:6px;height:6px;border-radius:50%;background:#22C55E;animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.35}}
+/* Stats */
+.grid{display:grid;gap:20px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:var(--transition)}
+.stat-card:hover{border-color:var(--text-muted);transform:translateY(-2px);box-shadow:var(--shadow)}
+.stat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.stat-icon{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;background:var(--accent-glow);color:var(--accent)}
+.stat-icon svg{width:20px;height:20px;stroke-width:2;fill:none}
+.stat-value{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+.stat-label{font-size:13px;color:var(--text-secondary)}
+.stat-change{font-size:12px;color:var(--success);margin-top:4px;font-weight:600}
 
-/* Theme toggle */
-.theme-toggle {
-  width:36px;height:36px;border-radius:8px;
-  border:1px solid var(--border);
-  background:var(--surface-2);
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;transition:all 0.18s;color:var(--muted);
-}
-.theme-toggle:hover{border-color:var(--teal);color:var(--teal);}
+/* Sections */
+.section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px}
+.section-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.section-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px}
+.section-title svg{width:18px;height:18px;stroke-width:2;fill:none}
+.section-body{padding:0}
 
-/* ── TABS ── */
-.tabs-wrapper {
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 24px;
-  display:flex;gap:4px;
-  transition:background 0.25s;
-}
-.tab-btn {
-  padding:14px 18px 12px;
-  border:none;background:transparent;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.85rem;font-weight:600;
-  color:var(--muted);cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:all 0.18s;
-  display:flex;align-items:center;gap:7px;
-  margin-bottom:-1px;
-}
-.tab-btn:hover{color:var(--text);background:var(--tab-hover);border-radius:6px 6px 0 0;}
-.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal);}
-.tab-icon{font-size:14px;}
+/* Tables */
+.table-container{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer}
+th:hover{color:var(--text-primary)}
+td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-primary);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,0.02)}
+tr:last-child td{border-bottom:none}
+.cell-title{font-weight:600;color:var(--text-primary);line-height:1.4}
+.cell-meta{font-size:12px;color:var(--text-secondary);margin-top:3px}
+.row-actions{display:flex;gap:6px;opacity:0;transition:var(--transition)}
+tr:hover .row-actions{opacity:1}
+.row-actions button{padding:6px;border-radius:6px;background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+.row-actions button:hover{background:var(--bg-hover);color:var(--text-primary)}
+.row-actions button svg{width:14px;height:14px;stroke-width:2;fill:none}
 
-/* ── MAIN ── */
-main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:24px 20px 48px;}
+/* Badges */
+.badge-pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+.bg-done{background:rgba(16,185,129,0.15);color:var(--success)}
+.bg-progress{background:rgba(245,158,11,0.15);color:var(--warning)}
+.bg-todo{background:rgba(100,116,139,0.15);color:var(--text-muted)}
+.bg-critical{background:rgba(244,63,94,0.15);color:var(--critical)}
+.bg-high{background:rgba(245,158,11,0.2);color:var(--warning)}
+.bg-medium{background:rgba(59,130,246,0.15);color:var(--info)}
+.bg-low{background:rgba(100,116,139,0.2);color:var(--text-muted)}
+.bg-issue{background:rgba(16,185,129,0.15);color:var(--success)}
+.bg-validation{background:rgba(139,92,246,0.15);color:var(--accent)}
+.bg-task{background:rgba(236,72,153,0.15);color:#ec4899}
+.bg-test{background:rgba(6,182,212,0.15);color:#06b6d4}
+.bg-change{background:rgba(249,115,22,0.15);color:#f97316}
+.bg-meeting{background:rgba(99,102,241,0.15);color:#6366f1}
 
-/* ── PANELS (tab content) ── */
-.tab-panel{display:none;}
-.tab-panel.active{display:block;}
+/* Bookmarks */
+.bookmark-list{display:flex;flex-direction:column;gap:8px;padding:16px}
+.bookmark-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);transition:var(--transition);cursor:pointer}
+.bookmark-item:hover{border-color:var(--text-muted);background:var(--bg-hover);transform:translateX(4px)}
+.bookmark-fav{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.bookmark-info{flex:1;min-width:0}
+.bookmark-title{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bookmark-url{font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.bookmark-tags{display:flex;gap:6px;flex-shrink:0;margin-left:auto;padding-left:16px}
+.tag-pill{padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border)}
+.bookmark-actions{display:flex;gap:4px;flex-shrink:0;margin-left:8px;opacity:0;transition:var(--transition)}
+.bookmark-item:hover .bookmark-actions{opacity:1}
+.bookmark-actions button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text-muted);cursor:pointer;border-radius:6px}
+.bookmark-actions button:hover{background:var(--bg-card);color:var(--text-primary)}
+.bookmark-actions button svg{width:16px;height:16px;stroke-width:2;fill:none}
 
-/* ── TONE BAR ── */
-.control-bar {
-  display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;
-}
-.bar-label {
-  font-size:0.72rem;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.07em;margin-right:2px;white-space:nowrap;
-}
-.pill-btn {
-  padding:5px 14px;border-radius:20px;
-  border:1.5px solid var(--border);
-  background:var(--surface);color:var(--muted);
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.78rem;font-weight:600;cursor:pointer;
-  transition:all 0.15s;white-space:nowrap;
-}
-.pill-btn:hover{border-color:var(--teal);color:var(--teal);}
-.pill-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(0,151,167,0.28);}
+/* Vault */
+.vault-score{display:flex;align-items:center;gap:24px;margin:20px;padding:24px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);flex-wrap:wrap}
+.score-ring{position:relative;width:80px;height:80px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg);width:80px;height:80px}
+.score-ring circle{fill:none;stroke-width:8}
+.score-ring .bg{stroke:var(--border)}
+.score-ring .fill{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset 0.6s ease;stroke-dasharray:226;stroke-dashoffset:45}
+.score-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800}
+.score-info{flex:1;min-width:200px}
+.score-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.score-desc{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 20px 20px}
+.vault-card{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:var(--transition);position:relative}
+.vault-card:hover{border-color:var(--text-muted)}
+.vault-card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.vault-card-fav{width:44px;height:44px;border-radius:var(--radius-sm);background:var(--bg-secondary);display:flex;align-items:center;justify-content:center;font-size:22px}
+.vault-card-title{font-weight:700;font-size:15px}
+.vault-card-meta{font-size:12px;color:var(--text-muted);margin-top:2px}
+.vault-field{margin-bottom:12px}
+.vault-field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:4px}
+.vault-field-value{font-family:'SF Mono',monospace,monospace;font-size:13px;background:var(--bg-secondary);padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;word-break:break-all}
+.vault-field-value button{background:transparent;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px}
+.vault-field-value button:hover{background:var(--bg-hover);color:var(--accent)}
+.vault-field-value button svg{width:16px;height:16px;stroke-width:2;fill:none}
+.masked{filter:blur(5px);user-select:none;transition:filter 0.2s}
 
-/* ── TRANSLATOR BOX ── */
-.translator-box {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:1fr 48px 1fr;
-  min-height:340px;
-  transition:background 0.25s,border-color 0.25s;
-}
-.t-panel{display:flex;flex-direction:column;}
-.t-header {
-  padding:12px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  min-height:48px;
-  background:var(--surface-2);
-  transition:background 0.25s;
-}
-.t-lang {
-  display:flex;align-items:center;gap:7px;
-  font-size:0.8rem;font-weight:700;color:var(--text-2);
-}
-.lang-dot{width:7px;height:7px;border-radius:50%;}
-.d-saffron{background:var(--saffron);}
-.d-teal{background:var(--teal);}
-.t-actions{display:flex;gap:6px;}
-.icon-btn {
-  width:28px;height:28px;border-radius:6px;
-  border:1px solid var(--border);background:transparent;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:12px;color:var(--muted);
-  transition:all 0.15s;
-}
-.icon-btn:hover{background:var(--surface-2);color:var(--text);border-color:var(--muted-lt);}
-.icon-btn.ok{background:#DCFCE7;border-color:#86EFAC;color:var(--green);}
+/* Contacts */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:20px}
+.contact-card{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:var(--transition);cursor:pointer}
+.contact-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow)}
+.contact-avatar{width:52px;height:52px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;margin-bottom:14px}
+.contact-name{font-weight:700;font-size:16px;margin-bottom:3px}
+.contact-role{font-size:13px;color:var(--text-secondary);margin-bottom:14px}
+.contact-detail{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-muted);margin-bottom:8px}
+.contact-detail svg{width:14px;height:14px;flex-shrink:0;stroke-width:2;fill:none}
+.contact-tags{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.contact-footer{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);display:flex;align-items:center;justify-content:space-between}
 
-textarea,.output-text {
-  flex:1;padding:16px 18px;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.95rem;line-height:1.75;
-  color:var(--text);background:var(--input-bg);
-  border:none;outline:none;resize:none;
-  transition:background 0.25s,color 0.25s;
-}
-textarea::placeholder{color:var(--muted-lt);}
-.output-text{white-space:pre-wrap;word-break:break-word;overflow-y:auto;}
-.output-text.ph{color:var(--muted-lt);}
+/* Kanban */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:20px;overflow-x:auto}
+.kanban-col{display:flex;flex-direction:column;min-width:280px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);max-height:calc(100vh - 240px)}
+.kanban-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px}
+.kanban-count{font-size:11px;color:var(--text-muted);background:var(--bg-tertiary);padding:2px 10px;border-radius:10px}
+.kanban-body{padding:12px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.kanban-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;cursor:grab;transition:var(--transition)}
+.kanban-card:hover{border-color:var(--text-muted);box-shadow:var(--shadow)}
+.kanban-card:active{cursor:grabbing;transform:scale(0.98)}
+.kanban-card-title{font-weight:600;font-size:13px;margin-bottom:10px;line-height:1.4}
+.kanban-card-meta{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-muted);margin-bottom:10px}
+.kanban-card-tags{display:flex;gap:6px;flex-wrap:wrap}
 
-.t-footer {
-  padding:9px 16px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  min-height:42px;background:var(--surface-2);
-  transition:background 0.25s;
-}
-.char-ct{font-size:0.72rem;color:var(--muted-lt);}
-.char-ct.warn{color:var(--saffron);}
-.go-btn {
-  padding:7px 18px;border-radius:7px;border:none;
-  background:var(--teal);color:#fff;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.78rem;font-weight:700;cursor:pointer;
-  display:flex;align-items:center;gap:5px;
-  box-shadow:0 2px 8px rgba(0,151,167,0.28);
-  transition:all 0.18s;
-}
-.go-btn:hover{background:#00838F;box-shadow:0 3px 14px rgba(0,151,167,0.4);}
-.go-btn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
+/* Activity */
+.activity-list{display:flex;flex-direction:column;gap:16px;padding:20px}
+.activity-item{display:flex;gap:14px;position:relative;padding-left:30px}
+.activity-item::before{content:'';position:absolute;left:9px;top:32px;bottom:-20px;width:2px;background:var(--border)}
+.activity-item:last-child::before{display:none}
+.activity-dot{position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;background:var(--bg-tertiary);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.activity-dot svg{width:10px;height:10px;stroke-width:3;fill:none}
+.activity-content{flex:1;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.activity-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:8px}
+.activity-action{font-weight:600;font-size:13px}
+.activity-time{font-size:11px;color:var(--text-muted)}
+.activity-detail{font-size:13px;color:var(--text-secondary);margin-top:4px;line-height:1.5}
 
-/* ── DIVIDER COL ── */
-.t-divider {
-  border-left:1px solid var(--border);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:8px;
-  background:var(--surface-2);
-  transition:background 0.25s;
-}
-.swap-btn {
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid var(--border);background:var(--surface);
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:15px;transition:all 0.2s;color:var(--muted);
-}
-.swap-btn:hover{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(0,151,167,0.35);}
+/* Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:900;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:scale(0.95);transition:transform 0.2s}
+.modal-overlay.active .modal{transform:scale(1)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:18px;font-weight:800}
+.modal-close{width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:22px;line-height:1}
+.modal-close:hover{background:var(--bg-hover);color:var(--text-primary)}
+.modal-body{padding:24px}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.3px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:14px;outline:none;transition:var(--transition);font-family:inherit}
+.form-group textarea{resize:vertical;min-height:90px;line-height:1.5}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-hint{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.4}
 
-/* ── IMPROVEMENTS BAR ── */
-.impr-bar {
-  display:none;align-items:center;gap:7px;flex-wrap:wrap;
-  background:var(--teal-lt);border-top:1px solid rgba(0,151,167,0.2);
-  padding:9px 16px;font-size:0.75rem;color:var(--teal);
-  transition:background 0.25s;
-}
-.impr-bar.show{display:flex;}
-.impr-bar strong{font-weight:700;white-space:nowrap;}
-.impr-tag {
-  background:var(--surface);border:1px solid rgba(0,151,167,0.25);
-  border-radius:20px;padding:2px 9px;font-size:0.7rem;font-weight:600;color:var(--teal);
-}
-.quality-pill {
-  display:none;align-items:center;gap:4px;
-  font-size:0.7rem;font-weight:700;padding:3px 9px;border-radius:20px;
-}
-.quality-pill.show{display:flex;}
-.quality-pill.hi{background:#DCFCE7;color:#15803D;}
-.quality-pill.md{background:#FEF9C3;color:#A16207;}
-[data-theme="dark"] .quality-pill.hi{background:rgba(22,163,74,0.18);color:#4ADE80;}
-[data-theme="dark"] .quality-pill.md{background:rgba(234,179,8,0.15);color:#FCD34D;}
+/* Command Palette */
+.palette-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:950;display:flex;align-items:flex-start;justify-content:center;padding-top:15vh;opacity:0;pointer-events:none;transition:opacity 0.15s}
+.palette-overlay.active{opacity:1;pointer-events:auto}
+.palette{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);width:100%;max-width:600px;box-shadow:var(--shadow-lg);overflow:hidden}
+.palette-input{width:100%;padding:18px 20px;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text-primary);font-size:16px;outline:none}
+.palette-input::placeholder{color:var(--text-muted)}
+.palette-results{max-height:400px;overflow-y:auto;padding:8px}
+.palette-item{display:flex;align-items:center;gap:14px;padding:12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);color:var(--text-secondary);font-size:14px}
+.palette-item:hover{background:var(--bg-hover);color:var(--text-primary)}
+.palette-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:2;fill:none}
+.palette-empty{padding:32px;text-align:center;color:var(--text-muted);font-size:14px}
 
-/* ── SKELETON ── */
-.skeleton-wrap{display:flex;flex-direction:column;gap:10px;padding:16px 18px;}
-.skel{height:13px;border-radius:5px;background:linear-gradient(90deg,var(--skl1) 25%,var(--skl2) 50%,var(--skl1) 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* Toast */
+.toast-container{position:fixed;top:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-lg);animation:slideInRight 0.3s ease;min-width:300px;max-width:380px;pointer-events:auto}
+.toast-success{border-left:3px solid var(--success)}
+.toast-error{border-left:3px solid var(--danger)}
+.toast-info{border-left:3px solid var(--info)}
+.toast-message{font-size:13px;font-weight:500;line-height:1.4}
 
-/* ── ERROR BAR ── */
-.error-bar {
-  display:none;align-items:center;gap:8px;
-  background:#FEF2F2;border:1px solid #FECACA;
-  border-radius:8px;padding:9px 14px;
-  font-size:0.8rem;color:var(--red);margin-top:10px;
-}
-.error-bar.show{display:flex;}
-[data-theme="dark"] .error-bar{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);}
+/* Empty State */
+.empty{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-icon{font-size:56px;margin-bottom:16px;opacity:0.4}
+.empty-title{font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+.empty-desc{font-size:14px;max-width:300px;margin:0 auto;line-height:1.5}
 
-/* ── EXAMPLES ── */
-.examples-row{display:flex;align-items:flex-start;gap:7px;margin-top:13px;flex-wrap:wrap;}
-.ex-label{font-size:0.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap;margin-top:3px;}
-.ex-chip {
-  padding:4px 12px;border-radius:20px;
-  border:1px solid var(--border);background:var(--chip-bg);
-  font-size:0.75rem;color:var(--muted);cursor:pointer;
-  transition:all 0.14s;
-}
-.ex-chip:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-lt);}
+/* View Toggle */
+.view-toggle{display:flex;gap:4px;background:var(--bg-tertiary);padding:4px;border-radius:var(--radius-sm);border:1px solid var(--border)}
+.view-toggle button{padding:7px 14px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;border-radius:6px;font-size:12px;font-weight:700;transition:var(--transition)}
+.view-toggle button.active{background:var(--accent);color:#fff}
 
-/* ── TRANSLATE TAB: lang selector ── */
-.lang-selector-bar {
-  display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;
-}
-.lang-select-group{display:flex;align-items:center;gap:7px;}
-.lang-select-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
-.lang-select {
-  padding:6px 12px;border-radius:8px;
-  border:1.5px solid var(--border);
-  background:var(--surface);color:var(--text);
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.82rem;font-weight:600;cursor:pointer;
-  outline:none;transition:all 0.15s;
-}
-.lang-select:focus{border-color:var(--teal);}
-[data-theme="dark"] .lang-select{background:var(--surface-2);}
-.swap-lang-btn {
-  width:32px;height:32px;border-radius:8px;
-  border:1.5px solid var(--border);background:var(--surface);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--muted);transition:all 0.15s;
-}
-.swap-lang-btn:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-lt);}
+/* Filter Bar */
+.filter-bar{display:flex;gap:12px;padding:16px 20px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--border)}
+.filter-bar input,.filter-bar select{padding:9px 12px;background:var(--bg-tertiary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;outline:none;min-width:140px}
+.filter-bar input:focus,.filter-bar select:focus{border-color:var(--accent)}
 
-/* ── MAIL WRITER ── */
-.mail-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+/* Quick Add FAB */
+.fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;font-size:28px;transition:var(--transition);z-index:100;font-weight:300}
+.fab:hover{background:var(--accent-hover);transform:scale(1.08) rotate(90deg)}
+.fab-menu{position:fixed;bottom:88px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:100;opacity:0;pointer-events:none;transform:translateY(15px);transition:all 0.25s cubic-bezier(0.4,0,0.2,1)}
+.fab-menu.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+.fab-item{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);white-space:nowrap;transition:var(--transition)}
+.fab-item:hover{background:var(--bg-hover);border-color:var(--accent);transform:translateX(-4px)}
+.fab-item svg{width:16px;height:16px;stroke-width:2;fill:none}
 
-.mail-form-card, .mail-output-card {
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);box-shadow:var(--shadow);
-  overflow:hidden;display:flex;flex-direction:column;
-  transition:background 0.25s,border-color 0.25s;
-}
-.card-header {
-  padding:13px 18px;border-bottom:1px solid var(--border);
-  background:var(--surface-2);
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background 0.25s;
-}
-.card-title{font-size:0.82rem;font-weight:700;color:var(--text-2);display:flex;align-items:center;gap:7px;}
-.card-body{padding:18px;display:flex;flex-direction:column;gap:14px;flex:1;}
+/* Animations */
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fade-in{animation:fadeIn 0.4s ease}
 
-.form-group{display:flex;flex-direction:column;gap:5px;}
-.form-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.form-input, .form-select, .form-textarea {
-  padding:9px 12px;border-radius:8px;
-  border:1.5px solid var(--border);
-  background:var(--input-bg);color:var(--text);
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;
-  outline:none;transition:border-color 0.15s,background 0.25s;
-  width:100%;
+/* Mobile */
+@media(max-width:1024px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .kanban{grid-template-columns:repeat(2,1fr)}
 }
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--teal);}
-.form-textarea{resize:vertical;min-height:130px;line-height:1.65;}
-[data-theme="dark"] .form-input,[data-theme="dark"] .form-select,[data-theme="dark"] .form-textarea{background:var(--surface-2);}
-
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-
-.mail-go-btn {
-  padding:11px;border-radius:8px;border:none;
-  background:var(--teal);color:#fff;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:0.88rem;font-weight:700;cursor:pointer;
-  box-shadow:0 2px 10px rgba(0,151,167,0.3);
-  transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:7px;
-}
-.mail-go-btn:hover{background:#00838F;box-shadow:0 4px 16px rgba(0,151,167,0.42);}
-.mail-go-btn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
-
-/* mail output */
-.mail-output-inner{flex:1;padding:18px;overflow-y:auto;}
-.mail-output-inner pre{
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;
-  line-height:1.8;white-space:pre-wrap;word-break:break-word;
-  color:var(--text);
-}
-.mail-output-inner.ph{color:var(--muted-lt);font-size:0.88rem;padding:20px 18px;}
-.mail-card-footer{
-  padding:10px 16px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  background:var(--surface-2);transition:background 0.25s;
-}
-.mail-meta{font-size:0.72rem;color:var(--muted-lt);}
-
-/* subject line highlight */
-.subject-highlight {
-  background:var(--teal-lt);border-radius:6px;
-  padding:7px 12px;margin-bottom:14px;
-  font-size:0.82rem;color:var(--teal);font-weight:600;
-  display:none;
-}
-.subject-highlight.show{display:block;}
-[data-theme="dark"] .subject-highlight{color:#4DD0E1;}
-
-/* ── RESPONSIVE ── */
-@media(max-width:780px){
-  .translator-box{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
-  .t-divider{width:100%;height:48px;flex-direction:row;border-left:none;border-right:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-  .swap-btn{transform:rotate(90deg);}
-  .mail-layout{grid-template-columns:1fr;}
-  .form-row{grid-template-columns:1fr;}
-}
-@media(max-width:480px){
-  .tabs-wrapper{padding:0 12px;}
-  .tab-btn{padding:12px 10px 10px;font-size:0.78rem;}
-  main{padding:16px 12px 40px;}
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-260px;top:0;bottom:0}
+  .sidebar.open{left:0}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:700;opacity:0;pointer-events:none;transition:opacity 0.2s}
+  .overlay.active{opacity:1;pointer-events:auto}
+  .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+  .kanban{grid-template-columns:1fr}
+  .vault-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .header{padding:0 16px}
+  .content{padding:16px}
+  .search-box{display:none}
+  .vault-score{margin:12px;padding:16px}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <a class="logo" href="#">
-    <div class="logo-mark">🌐</div>
-    LinguistPro
-  </a>
-  <div class="header-right">
-    <div class="status-dot"><span></span> AI Ready</div>
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
-  </div>
-</header>
-
-<!-- TABS -->
-<div class="tabs-wrapper">
-  <button class="tab-btn active" data-tab="improve"><span class="tab-icon">✨</span> Improve</button>
-  <button class="tab-btn" data-tab="translate"><span class="tab-icon">🔁</span> Translate</button>
-  <button class="tab-btn" data-tab="mail"><span class="tab-icon">✉️</span> Mail Writer</button>
-</div>
-
-<main>
-
-<!-- ══════════════════════════════════════
-     TAB 1 — IMPROVE
-══════════════════════════════════════ -->
-<div class="tab-panel active" id="tab-improve">
-
-  <div class="control-bar">
-    <span class="bar-label">Tone</span>
-    <button class="pill-btn active" data-tone="Formal">Formal</button>
-    <button class="pill-btn" data-tone="Friendly">Friendly</button>
-    <button class="pill-btn" data-tone="Urgent">Urgent</button>
-    <button class="pill-btn" data-tone="Diplomatic">Diplomatic</button>
-    <button class="pill-btn" data-tone="Concise">Concise</button>
-  </div>
-
-  <div class="translator-box">
-    <!-- Input -->
-    <div class="t-panel">
-      <div class="t-header">
-        <div class="t-lang"><span class="lang-dot d-saffron"></span>Hindi / Gujarati / Hinglish</div>
-        <div class="t-actions">
-          <button class="icon-btn" id="imp-clear" title="Clear">✕</button>
-        </div>
-      </div>
-      <textarea id="imp-input" placeholder="Write in Hindi, Gujarati, Hinglish, or rough English…&#10;&#10;e.g. Bhai payment aaya nahi, jaldi bhejo" maxlength="2000" spellcheck="false"></textarea>
-      <div class="t-footer">
-        <span class="char-ct" id="imp-chars">0 / 2000</span>
-        <button class="go-btn" id="imp-btn" disabled>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5h10M7 2l4.5 4.5L7 11" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Improve
-        </button>
-      </div>
-    </div>
-
-    <!-- Divider -->
-    <div class="t-divider">
-      <button class="swap-btn" id="imp-go" title="Improve (Ctrl+Enter)">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-
-    <!-- Output -->
-    <div class="t-panel">
-      <div class="t-header">
-        <div class="t-lang"><span class="lang-dot d-teal"></span>Polished Professional English</div>
-        <div class="t-actions">
-          <div class="quality-pill" id="imp-quality"></div>
-          <button class="icon-btn" id="imp-copy" title="Copy">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="output-text ph" id="imp-output">Improved text will appear here…</div>
-      <div class="impr-bar" id="imp-impr"></div>
-      <div class="t-footer">
-        <span class="char-ct" id="imp-out-chars"></span>
-      </div>
-    </div>
-  </div>
-
-  <div class="error-bar" id="imp-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="imp-error-msg"></span></div>
-
-  <div class="examples-row">
-    <span class="ex-label">Try</span>
-    <span class="ex-chip" data-text="Bhai payment aaya nahi abhi tak, jaldi bhejo please">Payment reminder</span>
-    <span class="ex-chip" data-text="aapno maal mane nahi game, quality barabar nathi">Quality complaint</span>
-    <span class="ex-chip" data-text="Wanted to touch base re the project, things are bit delayed sorry">Delay apology</span>
-    <span class="ex-chip" data-text="yr price zyada ho gaya, thoda discount milega kya">Price negotiation</span>
+<!-- Login -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="login-logo"><div class="logo-icon">CC</div><div>Command<span style="color:var(--accent)">Center</span></div></div>
+    <div class="login-subtitle">Your unified workspace for tasks, bookmarks, credentials, and contacts.</div>
+    <form id="loginForm" onsubmit="return false;">
+      <div class="login-field"><label>Email Address</label><input type="email" id="loginEmail" value="sahil@command.center"></div>
+      <div class="login-field"><label>Password</label><input type="password" id="loginPassword" value="admin123"></div>
+      <button class="btn" onclick="Auth.login()" style="margin-bottom:10px">Sign In</button>
+      <button class="btn btn-secondary" onclick="Auth.demo()">Use Demo Account</button>
+    </form>
+    <div class="demo-banner"><strong>Demo Mode:</strong> Pre-loaded with your project data from the screenshots.</div>
+    <div class="login-footer">Don't have an account? <a onclick="Auth.showRegister()">Create one</a></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     TAB 2 — TRANSLATE
-══════════════════════════════════════ -->
-<div class="tab-panel" id="tab-translate">
-
-  <div class="lang-selector-bar">
-    <div class="lang-select-group">
-      <span class="lang-select-label">From</span>
-      <select class="lang-select" id="tr-from">
-        <option value="English">English</option>
-        <option value="Hindi">Hindi</option>
-        <option value="Gujarati">Gujarati</option>
-        <option value="Hinglish">Hinglish</option>
-      </select>
-    </div>
-    <button class="swap-lang-btn" id="tr-swap" title="Swap languages">⇄</button>
-    <div class="lang-select-group">
-      <span class="lang-select-label">To</span>
-      <select class="lang-select" id="tr-to">
-        <option value="Hindi">Hindi</option>
-        <option value="Gujarati">Gujarati</option>
-        <option value="English">English</option>
-        <option value="Formal English">Formal English</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="translator-box">
-    <div class="t-panel">
-      <div class="t-header">
-        <div class="t-lang" id="tr-from-label"><span class="lang-dot d-saffron"></span>English</div>
-        <div class="t-actions">
-          <button class="icon-btn" id="tr-clear" title="Clear">✕</button>
-        </div>
-      </div>
-      <textarea id="tr-input" placeholder="Type text to translate…" maxlength="2000" spellcheck="false"></textarea>
-      <div class="t-footer">
-        <span class="char-ct" id="tr-chars">0 / 2000</span>
-        <button class="go-btn" id="tr-btn" disabled>
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5h10M7 2l4.5 4.5L7 11" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Translate
-        </button>
-      </div>
-    </div>
-
-    <div class="t-divider">
-      <button class="swap-btn" id="tr-go" title="Translate">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-
-    <div class="t-panel">
-      <div class="t-header">
-        <div class="t-lang" id="tr-to-label"><span class="lang-dot d-teal"></span>Hindi</div>
-        <div class="t-actions">
-          <button class="icon-btn" id="tr-copy" title="Copy">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="output-text ph" id="tr-output">Translation will appear here…</div>
-      <div class="t-footer">
-        <span class="char-ct" id="tr-out-chars"></span>
-      </div>
-    </div>
-  </div>
-
-  <div class="error-bar" id="tr-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="tr-error-msg"></span></div>
-
-  <div class="examples-row">
-    <span class="ex-label">Try</span>
-    <span class="ex-chip" id="tr-ex1">Payment is overdue, please send immediately</span>
-    <span class="ex-chip" id="tr-ex2">Can we schedule a meeting tomorrow?</span>
-    <span class="ex-chip" id="tr-ex3">aapka maal abhi tak nahi aaya</span>
-    <span class="ex-chip" id="tr-ex4">Mane discount joiye chhe</span>
+<!-- Register -->
+<div class="login-screen" id="registerScreen" style="display:none">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="login-logo"><div class="logo-icon">CC</div><div>Command<span style="color:var(--accent)">Center</span></div></div>
+    <div class="login-subtitle">Create your personal command center.</div>
+    <form onsubmit="return false;">
+      <div class="login-field"><label>Full Name</label><input type="text" id="regName" placeholder="Sahil Kumar"></div>
+      <div class="login-field"><label>Email Address</label><input type="email" id="regEmail" placeholder="you@company.com"></div>
+      <div class="login-field"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters"></div>
+      <button class="btn" onclick="Auth.register()" style="margin-bottom:10px">Create Account</button>
+      <button class="btn btn-secondary" onclick="Auth.showLogin()">Back to Sign In</button>
+    </form>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     TAB 3 — MAIL WRITER
-══════════════════════════════════════ -->
-<div class="tab-panel" id="tab-mail">
-  <div class="mail-layout">
+<!-- Mobile Overlay -->
+<div class="overlay" id="mobileOverlay" onclick="UI.toggleSidebar()"></div>
 
-    <!-- LEFT: Form -->
-    <div class="mail-form-card">
-      <div class="card-header">
-        <div class="card-title">✉️ Mail Details</div>
+<!-- App -->
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="logo-icon">CC</div><div class="logo-text">Command<span style="color:var(--accent)">Center</span></div></div>
+    <nav class="nav">
+      <div class="nav-group">
+        <div class="nav-label">Workspace</div>
+        <div class="nav-item active" data-view="dashboard" onclick="Router.go('dashboard')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+        <div class="nav-item" data-view="tasks" onclick="Router.go('tasks')"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tasks</div>
+        <div class="nav-item" data-view="bookmarks" onclick="Router.go('bookmarks')"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Bookmarks</div>
+        <div class="nav-item" data-view="vault" onclick="Router.go('vault')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Vault</div>
+        <div class="nav-item" data-view="contacts" onclick="Router.go('contacts')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Contacts</div>
+        <div class="nav-item" data-view="activities" onclick="Router.go('activities')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Activity</div>
       </div>
-      <div class="card-body">
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">To (Recipient)</label>
-            <input class="form-input" id="mail-to" type="text" placeholder="e.g. Client, Supplier, Boss"/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Purpose</label>
-            <select class="form-select" id="mail-purpose">
-              <option value="Follow up on payment">Follow up on payment</option>
-              <option value="Send quotation/invoice">Send quotation / invoice</option>
-              <option value="Introduce my business">Introduce my business</option>
-              <option value="Apologize for delay">Apologize for delay</option>
-              <option value="Request a meeting">Request a meeting</option>
-              <option value="Complaint about quality">Complaint about quality</option>
-              <option value="Ask for discount">Ask for discount / negotiation</option>
-              <option value="Thank you message">Thank you message</option>
-              <option value="Order confirmation">Order confirmation</option>
-              <option value="Custom">Custom (see key points)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Tone</label>
-            <select class="form-select" id="mail-tone">
-              <option value="Formal and professional">Formal & Professional</option>
-              <option value="Friendly but professional">Friendly but Professional</option>
-              <option value="Firm and urgent">Firm & Urgent</option>
-              <option value="Polite and diplomatic">Polite & Diplomatic</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Language</label>
-            <select class="form-select" id="mail-lang">
-              <option value="English">English</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Gujarati">Gujarati</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Key Points / Context <span style="font-weight:400;text-transform:none;letter-spacing:0">(any language)</span></label>
-          <textarea class="form-textarea" id="mail-points" placeholder="Add key points in any language…&#10;&#10;e.g. &#10;- Payment of ₹50,000 pending since 15 days&#10;- Already reminded twice&#10;- Need payment by Friday&#10;- Client name: Rajesh bhai"></textarea>
-        </div>
-
-        <button class="mail-go-btn" id="mail-btn">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Generate Email
-        </button>
+      <div class="nav-group">
+        <div class="nav-label">System</div>
+        <div class="nav-item" data-view="settings" onclick="Router.go('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card" onclick="Router.go('settings')">
+        <div class="user-avatar" id="sidebarAvatar">SK</div>
+        <div class="user-info"><div class="user-name" id="sidebarName">Sahil Kumar</div><div class="user-role">Project Manager</div></div>
       </div>
     </div>
+  </aside>
 
-    <!-- RIGHT: Output -->
-    <div class="mail-output-card">
-      <div class="card-header">
-        <div class="card-title">📬 Generated Email</div>
-        <button class="icon-btn" id="mail-copy" title="Copy email">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1 9V2.5A1.5 1.5 0 012.5 1H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  <main class="main">
+    <header class="header">
+      <div class="header-left">
+        <button class="icon-btn" style="display:none" id="menuBtn" onclick="UI.toggleSidebar()"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <div class="header-title" id="pageTitle">Dashboard</div>
+        <div class="search-box" id="globalSearchBox">
+          <input type="text" placeholder="Search anything... (Ctrl+K)" id="globalSearchInput" oninput="UI.handleGlobalSearch(this.value)">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" onclick="UI.showNotifications()" title="Notifications">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="badge" id="notifBadge" style="display:none">0</span>
         </button>
+        <button class="icon-btn" onclick="Auth.logout()" title="Sign Out"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
       </div>
-      <div class="subject-highlight" id="mail-subject"></div>
-      <div class="mail-output-inner ph" id="mail-output">Your generated email will appear here.<br><br>Fill in the details on the left and click <strong>Generate Email</strong>.</div>
-      <div class="mail-card-footer">
-        <span class="mail-meta" id="mail-meta"></span>
-        <button class="go-btn" id="mail-regen" style="display:none">↺ Regenerate</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="error-bar" id="mail-error"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.4"/><path d="M7 4.5V7.5M7 9.5h.01" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/></svg><span id="mail-error-msg"></span></div>
+    </header>
+    <div class="content" id="content"></div>
+  </main>
 </div>
 
-</main>
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="UI.closeModal(event)">
+  <div class="modal" id="modal" onclick="event.stopPropagation()">
+    <div class="modal-header"><div class="modal-title" id="modalTitle">Title</div><button class="modal-close" onclick="UI.hideModal()">&times;</button></div>
+    <div class="modal-body" id="modalBody">Content</div>
+    <div class="modal-footer" id="modalFooter"><button class="btn btn-secondary btn-sm" onclick="UI.hideModal()">Cancel</button><button class="btn btn-sm" id="modalActionBtn">Save</button></div>
+  </div>
+</div>
+
+<!-- Command Palette -->
+<div class="palette-overlay" id="paletteOverlay" onclick="UI.closePalette(event)">
+  <div class="palette" onclick="event.stopPropagation()">
+    <input type="text" class="palette-input" id="paletteInput" placeholder="Search tasks, bookmarks, contacts..." oninput="UI.handlePaletteSearch(this.value)">
+    <div class="palette-results" id="paletteResults"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- FAB -->
+<button class="fab" id="fab" onclick="UI.toggleFab()">+</button>
+<div class="fab-menu" id="fabMenu">
+  <div class="fab-item" onclick="UI.quickAdd('task')"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>New Task</div>
+  <div class="fab-item" onclick="UI.quickAdd('bookmark')"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>New Bookmark</div>
+  <div class="fab-item" onclick="UI.quickAdd('credential')"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>New Credential</div>
+  <div class="fab-item" onclick="UI.quickAdd('contact')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>New Contact</div>
+</div>
 
 <script>
-// ── THEME ──
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-let dark = false;
-themeToggle.addEventListener('click', () => {
-  dark = !dark;
-  html.setAttribute('data-theme', dark ? 'dark' : 'light');
-  themeToggle.textContent = dark ? '☀️' : '🌙';
-});
+// ==================== SVG ICONS ====================
+const svg=(paths,viewBox='0 0 24 24')=>`<svg viewBox="${viewBox}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+const IC={
+  dashboard:svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'),
+  task:svg('<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>'),
+  bookmark:svg('<path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>'),
+  vault:svg('<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>'),
+  contact:svg('<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>'),
+  activity:svg('<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'),
+  settings:svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>'),
+  search:svg('<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>'),
+  plus:svg('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+  trash:svg('<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>'),
+  edit:svg('<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>'),
+  eye:svg('<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'),
+  eyeOff:svg('<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'),
+  copy:svg('<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>'),
+  check:svg('<polyline points="20 6 9 17 4 12"/>'),
+  alert:svg('<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'),
+  clock:svg('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),
+  mail:svg('<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>'),
+  phone:svg('<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>'),
+  building:svg('<path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/>'),
+  menu:svg('<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>'),
+  bell:svg('<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>'),
+  logout:svg('<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>')
+};
 
-// ── TABS ──
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-  });
-});
-
-// ── HELPERS ──
-function skeleton(el) {
-  el.className = el.className.replace('ph','');
-  el.innerHTML = `<div class="skeleton-wrap"><div class="skel" style="width:88%"></div><div class="skel" style="width:72%"></div><div class="skel" style="width:82%"></div><div class="skel" style="width:60%"></div></div>`;
-}
-function clearSkel(el, text, placeholder) {
-  el.innerHTML = '';
-  if (text) {
-    el.classList.remove('ph');
-    el.textContent = text;
-  } else {
-    el.classList.add('ph');
-    el.textContent = placeholder;
-  }
-}
-function showErr(bar, msgEl, msg) {
-  msgEl.textContent = msg;
-  bar.classList.add('show');
-}
-function hideErr(bar) { bar.classList.remove('show'); }
-
-function copyText(el, btn) {
-  const txt = el.textContent || el.innerText;
-  if (!txt || el.classList.contains('ph')) return;
-  navigator.clipboard.writeText(txt).then(() => {
-    const orig = btn.innerHTML;
-    btn.classList.add('ok');
-    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5l3.5 3.5 6-7" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    setTimeout(() => { btn.classList.remove('ok'); btn.innerHTML = orig; }, 2000);
-  });
-}
-
-async function callAI(system, userMsg) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "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",
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true"
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      system,
-      messages: [{ role: "user", content: userMsg }]
-    })
-  });
-  if (!res.ok) {
-    const e = await res.json().catch(() => ({}));
-    throw new Error(e?.error?.message || `Error ${res.status}`);
-  }
-  const data = await res.json();
-  return data.content?.[0]?.text || '';
-}
-
-// ══════════════════════
-// TAB 1 — IMPROVE
-// ══════════════════════
-const impInput   = document.getElementById('imp-input');
-const impOutput  = document.getElementById('imp-output');
-const impBtn     = document.getElementById('imp-btn');
-const impGo      = document.getElementById('imp-go');
-const impClear   = document.getElementById('imp-clear');
-const impCopy    = document.getElementById('imp-copy');
-const impChars   = document.getElementById('imp-chars');
-const impOutChars= document.getElementById('imp-out-chars');
-const impError   = document.getElementById('imp-error');
-const impErrorMsg= document.getElementById('imp-error-msg');
-const impQuality = document.getElementById('imp-quality');
-const impImpr    = document.getElementById('imp-impr');
-let impTone = 'Formal';
-let impBusy = false;
-
-document.querySelectorAll('#tab-improve .pill-btn').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('#tab-improve .pill-btn').forEach(x => x.classList.remove('active'));
-    b.classList.add('active'); impTone = b.dataset.tone;
-  });
-});
-
-impInput.addEventListener('input', () => {
-  const l = impInput.value.length;
-  impChars.textContent = `${l} / 2000`;
-  impChars.classList.toggle('warn', l > 1800);
-  impBtn.disabled = l === 0 || impBusy;
-  hideErr(impError);
-});
-
-impClear.addEventListener('click', () => {
-  impInput.value = ''; impChars.textContent = '0 / 2000';
-  impBtn.disabled = true;
-  clearSkel(impOutput, null, 'Improved text will appear here…');
-  impOutChars.textContent = '';
-  impQuality.className = 'quality-pill';
-  impImpr.classList.remove('show');
-  hideErr(impError);
-});
-
-impCopy.addEventListener('click', () => copyText(impOutput, impCopy));
-
-document.querySelectorAll('#tab-improve .ex-chip').forEach(c => {
-  c.addEventListener('click', () => {
-    impInput.value = c.dataset.text;
-    impInput.dispatchEvent(new Event('input'));
-  });
-});
-
-async function doImprove() {
-  const txt = impInput.value.trim();
-  if (!txt || impBusy) return;
-  impBusy = true; impBtn.disabled = true;
-  hideErr(impError); impImpr.classList.remove('show');
-  impQuality.className = 'quality-pill';
-  skeleton(impOutput);
-
-  const sys = `You are a professional English editor for Indian business owners (Hindi/Gujarati speakers).
-Task: Convert the user's input (Hindi, Gujarati, Hinglish, or rough English) into polished professional English.
-Tone: ${impTone}.
-Rules: Preserve EXACT meaning. Return ONLY valid JSON, no markdown:
-{"output":"...","improvements":["tag1","tag2","tag3"],"quality":"high|medium"}
-improvements = up to 4 short tags of what was changed.
-quality = "high" if meaning was fully clear, "medium" if you had to assume something.`;
-
-  try {
-    const raw = await callAI(sys, txt);
-    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    clearSkel(impOutput, parsed.output, '');
-    impOutChars.textContent = `${parsed.output.length} chars`;
-    impQuality.className = `quality-pill show ${parsed.quality === 'high' ? 'hi' : 'md'}`;
-    impQuality.textContent = parsed.quality === 'high' ? '✓ High Accuracy' : '~ Assumptions made';
-    if (parsed.improvements?.length) {
-      impImpr.innerHTML = `<strong>Improved:</strong>` + parsed.improvements.map(i=>`<span class="impr-tag">${i}</span>`).join('');
-      impImpr.classList.add('show');
+// ==================== DATA STORE ====================
+const Store={
+  key:'command_center_v2',
+  init(){
+    if(!localStorage.getItem(this.key)){
+      this.seed();
     }
-  } catch(e) {
-    clearSkel(impOutput, null, 'Improved text will appear here…');
-    showErr(impError, impErrorMsg, e.message || 'Something went wrong. Please try again.');
-  } finally {
-    impBusy = false;
-    impBtn.disabled = impInput.value.trim().length === 0;
+    return this.load();
+  },
+  seed(){
+    const data={
+      user:{id:1,name:'Sahil Kumar',email:'sahil@command.center',role:'Project Manager',avatar:'SK'},
+      tasks:[
+        {id:1,title:'Modbus Client New Service',date:'2026-05-07',owner:'Sahil',status:'Done',priority:'High',type:'Changes',text:''},
+        {id:2,title:'Deon - Mono Steel LDMS',date:'2026-05-07',owner:'Sahil',status:'Done',priority:'High',type:'Validation',text:''},
+        {id:3,title:'Merlin Portal - All Sites Data Delay Issues',date:'2026-05-07',owner:'Sahil',status:'Done',priority:'High',type:'Issues',text:'Resolved by Nevil'},
+        {id:4,title:'ROHA - QCA Data Stopped',date:'2026-05-07',owner:'Sahil',status:'Done',priority:'High',type:'Issues',text:''},
+        {id:5,title:'SMC2 PPC - Testing PF and kVAR with Trinity Touch',date:'2026-05-07',owner:'Sahil',status:'Done',priority:'Medium',type:'Test',text:''},
+        {id:6,title:'SRC Vaswani Saja - Report Hourly Generation Data Issue',date:'2026-05-07',owner:'Sahil',status:'In Progress',priority:'High',type:'Issues',text:'Informed to Aashtha'},
+        {id:7,title:'Deon - Mono Steel LDMS DC power Calculation & Report Issues',date:'2026-05-08',owner:'Sahil',status:'Done',priority:'High',type:'Issues',text:''},
+        {id:8,title:'Next Portal - 32Sites Send Mail for Require Documents for Sites',date:'2026-05-08',owner:'Sahil',status:'Done',priority:'Medium',type:'Task',text:''},
+        {id:9,title:'Nextnet - All 16 Sites Documents Upload on G-Drive and Nextnet Portal',date:'2026-05-11',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:''},
+        {id:10,title:'Merlin - All Live Sites Live Date Add on The Sheet',date:'2026-05-11',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:''},
+        {id:11,title:'Harsha SMC2 PPC - Test PF and kVAR Mode on Inverter with Serial Communication',date:'2026-05-12',owner:'Sahil',status:'Done',priority:'Medium',type:'Test',text:'Recording Has been sent to Athrava From Trinity Touch'},
+        {id:12,title:'Merlin - OTP Not Received on Mail for All Users',date:'2026-05-12',owner:'Sahil',status:'Done',priority:'Critical',type:'Issues',text:''},
+        {id:13,title:'GFL - Take Update from Parag regarding Energy Balance Report Format (Provide by ASAP)',date:'2026-05-12',owner:'Sahil',status:'Done',priority:'Medium',type:'Task',text:''},
+        {id:14,title:'SRC Dongargaon - Add OTI-WTI on The Live SLD',date:'2026-05-12',owner:'Sahil',status:'Done',priority:'Medium',type:'Task',text:''},
+        {id:15,title:'Variate - Deepak industry, Salasar pipe, Suryoday wire Site Data Validation & Live',date:'2026-05-12',owner:'Sahil',status:'Done',priority:'High',type:'Validation',text:'Only Merlin Portal Live is Pending'},
+        {id:16,title:'GACL EMS - Take a Update from The Client Regarding Data Issues',date:'2026-05-13',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:'Shutdown 12 to 16th May'},
+        {id:17,title:'Merlin - All Sites Show NC Status',date:'2026-05-13',owner:'Sahil',status:'Done',priority:'Critical',type:'Issues',text:'Resolved by Nevil'},
+        {id:18,title:'Rayzon - Utkarsh LDMS SLD in ICR-3 HT MFM Data and LT MFM Export Issue',date:'2026-05-13',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:''},
+        {id:19,title:'Variate - Venkteshwar Site Resolve Pending Points',date:'2026-05-14',owner:'Sahil',status:'Done',priority:'High',type:'Issues',text:'Currently, HT MFM and OTI-WTI Data Issue is Pending'},
+        {id:20,title:'Roha - configured INV-2B2_AJB_11 From eNode Side',date:'2026-05-14',owner:'Sahil',status:'Done',priority:'Medium',type:'Validation',text:''},
+        {id:21,title:"WCR's - Latest All Lived Sites for Raycal, RAPL and Rayzon Sites Send WCR's to the Client",date:'2026-05-14',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:''},
+        {id:22,title:'Deon - Mono Steel Site ICR-2 Validation and Live',date:'2026-05-14',owner:'Sahil',status:'Done',priority:'High',type:'Validation',text:'Need to Configure Relay Status'},
+        {id:23,title:'Rayzon - Utkarsh PPC & LDMS Training to The Site Team',date:'2026-05-15',owner:'Sahil',status:'Done',priority:'High',type:'Task',text:''},
+        {id:24,title:'Rayzon - Utkarsh LDMS Re-Validation',date:'2026-05-15',owner:'Sahil',status:'Done',priority:'High',type:'Validation',text:'Comments Added on Nextnet Portal'},
+        {id:25,title:'GFL - Energy Balance Report Related Functions, Features with Parag From GFL',date:'2026-05-15',owner:'Sahil',status:'Done',priority:'Medium',type:'Meeting',text:''},
+        {id:26,title:'Merlin - Plant Report with Daywise Selection Data Issues',date:'2026-05-15',owner:'Sahil',status:'Done',priority:'High',type:'Issues',text:''},
+        {id:27,title:'ROHA - INV-6A & 6B Data not Show on The Dashboard After Change ADAM Card',date:'2026-05-18',owner:'Sahil',status:'Done',priority:'High',type:'Validation',text:'Only 6A & 6B MFM Data Received'}
+      ],
+      bookmarks:[
+        {id:1,title:"Raipur Project's IP List",url:'https://raipur-ips.internal',tags:['Raipur'],favicon:'🌐'},
+        {id:2,title:"Universal JSON's",url:'https://merlin.internal/json',tags:['Merlin'],favicon:'📄'},
+        {id:3,title:'OTI-WTI Modbus Registers',url:'https://merlin.internal/modbus',tags:['Merlin'],favicon:'🔌'},
+        {id:4,title:'RAVI TECHNOFORGE LDMS',url:'https://ravi.ldms.io',tags:['Onix'],favicon:'🏭'},
+        {id:5,title:'SRC SAJA VRAJ SITES LDMS',url:'https://src-saja.ldms.io',tags:['SRC'],favicon:'🏗️'},
+        {id:6,title:'Merline_New_Buddy_Base',url:'https://buddybase.merlin.io',tags:['Merlin'],favicon:'🤝'},
+        {id:7,title:'DEON KOYBA LDMS',url:'https://deon-koyba.ldms.io',tags:['Deon'],favicon:'⚡'},
+        {id:8,title:'ROHA LDMS Sheet',url:'https://roha.ldms.io/sheet',tags:['Roha'],favicon:'📊'},
+        {id:9,title:'DEON MONO STEEL LDMS PORTAL',url:'https://deon-mono.ldms.io',tags:['Deon'],favicon:'🛡️'},
+        {id:10,title:'Merlin Live Sites Date',url:'https://merlin.internal/live',tags:['Merlin'],favicon:'📡'},
+        {id:11,title:'RAYZON UTKARSH PPC',url:'https://rayzon-ppc.io',tags:['Rayzon'],favicon:'⚙️'},
+        {id:12,title:'Rayzon Utkarsh Ispat LDMS',url:'https://rayzon-ispat.ldms.io',tags:['Rayzon'],favicon:'🔧'},
+        {id:13,title:'VGROWN UMRALA LDMS',url:'https://vgrown.ldms.io',tags:['VGROWN'],favicon:'🌱'},
+        {id:14,title:"SRVs Local SCADA's Sheet",url:'https://scada.local/srv',tags:['SCADA'],favicon:'📉'},
+        {id:15,title:'DONGARGAON LDMS',url:'https://dongargaon.ldms.io',tags:['SRC'],favicon:'🏭'},
+        {id:16,title:'Ravi Technoforge PPC',url:'https://ravi-ppc.io',tags:['Onix'],favicon:'⚙️'},
+        {id:17,title:'ROHA CMS',url:'https://roha-cms.io',tags:['Roha'],favicon:'🖥️'},
+        {id:18,title:'Buddybase Portal',url:'https://buddybase.io',tags:['Merlin'],favicon:'🤝'},
+        {id:19,title:'SRC Gandai LDMS',url:'https://src-gandai.ldms.io',tags:['SRC Gandai'],favicon:'🏗️'}
+      ],
+      credentials:[
+        {id:1,title:'Merlin Portal',username:'sahil.merlin',password:'Merlin@2026!',url:'https://merlin.portal.com',category:'Work',notes:'Main LDMS portal access'},
+        {id:2,title:'Deon LDMS',username:'admin.deon',password:'Deon#Koyba99',url:'https://deon.ldms.io',category:'Work',notes:'Mono Steel site access'},
+        {id:3,title:'Rayzon PPC',username:'sahil.rayzon',password:'Rayzon$Utkarsh24',url:'https://rayzon.io',category:'Work',notes:'PPC and LDMS training portal'},
+        {id:4,title:'ROHA CMS',username:'roha.admin',password:'Roha@CMS2026',url:'https://roha-cms.io',category:'Work',notes:'CMS and inverter config'},
+        {id:5,title:'GFL Energy Portal',username:'sahil.gfl',password:'GFL#Energy456',url:'https://gfl.energy',category:'Work',notes:'Energy balance reports'},
+        {id:6,title:'Google Workspace',username:'sahil.kumar@gmail.com',password:'Ggl$Safer789',url:'https://workspace.google.com',category:'Personal',notes:'Email and Drive'},
+        {id:7,title:'GitHub',username:'sahil-dev',password:'Git#Secure123',url:'https://github.com',category:'Development',notes:'Code repositories'}
+      ],
+      contacts:[
+        {id:1,name:'Nevil',email:'nevil@merlin.com',phone:'+91 98765 43210',company:'Merlin',role:'Technical Lead',tags:['Merlin'],lastContacted:'2026-05-17',interactions:[{date:'2026-05-13',type:'Issue Resolution',note:'Resolved Merlin Portal data delay issues and NC status'},{date:'2026-05-17',type:'Update',note:'OTP issue resolved for all users'}]},
+        {id:2,name:'Aashtha',email:'aashtha@src.com',phone:'+91 98765 12345',company:'SRC Vaswani',role:'Project Manager',tags:['SRC'],lastContacted:'2026-05-07',interactions:[{date:'2026-05-07',type:'Update',note:'Informed about hourly generation data issue at Saja site'}]},
+        {id:3,name:'Parag',email:'parag@gfl.com',phone:'+91 99887 76655',company:'GFL',role:'Energy Analyst',tags:['GFL'],lastContacted:'2026-05-15',interactions:[{date:'2026-05-12',type:'Task',note:'Energy Balance Report format update requested'},{date:'2026-05-15',type:'Meeting',note:'Discussed report functions and features'}]},
+        {id:4,name:'Atharva',email:'atharva@trinitytouch.com',phone:'+91 91234 56789',company:'Trinity Touch',role:'Testing Engineer',tags:['Trinity'],lastContacted:'2026-05-12',interactions:[{date:'2026-05-12',type:'Test',note:'Sent SMC2 PPC recording for PF and kVAR testing'}]},
+        {id:5,name:'Deepak',email:'deepak@variate.com',phone:'+91 92345 67890',company:'Variate Industries',role:'Site Manager',tags:['Variate'],lastContacted:'2026-05-14',interactions:[{date:'2026-05-12',type:'Validation',note:'Site data validation for Salasar and Suryoday'},{date:'2026-05-14',type:'Issue',note:'HT MFM and OTI-WTI data issue pending'}]},
+        {id:6,name:'Rohit',email:'rohit@deon.com',phone:'+91 93456 78901',company:'Deon',role:'Site Engineer',tags:['Deon'],lastContacted:'2026-05-14',interactions:[{date:'2026-05-14',type:'Validation',note:'ICR-2 validation and live status check'}]}
+      ],
+      activities:[
+        {id:1,action:'Resolved',entity:'task',entityId:3,detail:'Merlin Portal data delay issues resolved by Nevil',timestamp:'2026-05-07T10:30:00'},
+        {id:2,action:'Updated',entity:'task',entityId:6,detail:'Informed Aashtha about hourly generation data issue',timestamp:'2026-05-07T14:15:00'},
+        {id:3,action:'Completed',entity:'task',entityId:12,detail:'Critical OTP issue resolved for all Merlin users',timestamp:'2026-05-12T16:45:00'},
+        {id:4,action:'Validated',entity:'task',entityId:15,detail:'Variate site validation completed - Merlin Portal live pending',timestamp:'2026-05-12T11:00:00'},
+        {id:5,action:'Added',entity:'bookmark',entityId:6,detail:'New Buddybase Portal bookmark added',timestamp:'2026-05-11T09:20:00'},
+        {id:6,action:'Met',entity:'contact',entityId:3,detail:'Meeting with Parag regarding Energy Balance Report',timestamp:'2026-05-15T13:00:00'},
+        {id:7,action:'Re-validated',entity:'task',entityId:24,detail:'Rayzon LDMS re-validation with comments on Nextnet',timestamp:'2026-05-15T15:30:00'}
+      ],
+      settings:{theme:'dark',notifications:true}
+    };
+    localStorage.setItem(this.key,JSON.stringify(data));
+  },
+  load(){return JSON.parse(localStorage.getItem(this.key))},
+  save(data){localStorage.setItem(this.key,JSON.stringify(data))},
+  get(){return this.load()},
+  update(fn){const data=this.load();fn(data);this.save(data);return data;}
+};
+
+// ==================== AUTH ====================
+const Auth={
+  sessionKey:'cc_session_v2',
+  currentUser:null,
+  check(){
+    const session=localStorage.getItem(this.sessionKey);
+    if(session){
+      try{this.currentUser=JSON.parse(session);this.showApp();return true}catch(e){}
+    }
+    this.showLogin();return false;
+  },
+  login(){
+    const email=document.getElementById('loginEmail').value;
+    const pass=document.getElementById('loginPassword').value;
+    if(!email||!pass){UI.toast('Please enter email and password','error');return}
+    const data=Store.get();
+    if(data.user&&data.user.email===email){
+      this.currentUser=data.user;
+      localStorage.setItem(this.sessionKey,JSON.stringify(data.user));
+      UI.toast('Welcome back, '+data.user.name+'!','success');
+      this.showApp();
+    }else{UI.toast('Invalid credentials','error')}
+  },
+  demo(){
+    const data=Store.init();
+    this.currentUser=data.user;
+    localStorage.setItem(this.sessionKey,JSON.stringify(data.user));
+    UI.toast('Demo mode activated. Your project data is loaded!','success');
+    this.showApp();
+  },
+  register(){
+    const name=document.getElementById('regName').value;
+    const email=document.getElementById('regEmail').value;
+    const pass=document.getElementById('regPassword').value;
+    if(!name||!email||!pass){UI.toast('Please fill all fields','error');return}
+    if(pass.length<<6){UI.toast('Password must be at least 6 characters','error');return}
+    const avatar=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    const user={id:Date.now(),name,email,role:'User',avatar};
+    Store.save({user,tasks:[],bookmarks:[],credentials:[],contacts:[],activities:[],settings:{theme:'dark',notifications:true}});
+    this.currentUser=user;
+    localStorage.setItem(this.sessionKey,JSON.stringify(user));
+    UI.toast('Account created successfully!','success');
+    this.showApp();
+  },
+  logout(){
+    localStorage.removeItem(this.sessionKey);
+    this.currentUser=null;
+    location.reload();
+  },
+  showLogin(){
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('registerScreen').style.display='none';
+    document.getElementById('app').classList.remove('active');
+  },
+  showRegister(){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('registerScreen').style.display='flex';
+  },
+  showApp(){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('registerScreen').style.display='none';
+    document.getElementById('app').classList.add('active');
+    document.getElementById('sidebarName').textContent=Auth.currentUser.name;
+    document.getElementById('sidebarAvatar').textContent=Auth.currentUser.avatar||Auth.currentUser.name.slice(0,2).toUpperCase();
+    if(window.innerWidth<=768){document.getElementById('menuBtn').style.display='flex'}
+    Router.go('dashboard');
   }
-}
+};
 
-impBtn.addEventListener('click', doImprove);
-impGo.addEventListener('click', doImprove);
-impInput.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='Enter') doImprove(); });
-
-// ══════════════════════
-// TAB 2 — TRANSLATE
-// ══════════════════════
-const trInput    = document.getElementById('tr-input');
-const trOutput   = document.getElementById('tr-output');
-const trBtn      = document.getElementById('tr-btn');
-const trGo       = document.getElementById('tr-go');
-const trClear    = document.getElementById('tr-clear');
-const trCopy     = document.getElementById('tr-copy');
-const trChars    = document.getElementById('tr-chars');
-const trOutChars = document.getElementById('tr-out-chars');
-const trError    = document.getElementById('tr-error');
-const trErrorMsg = document.getElementById('tr-error-msg');
-const trFrom     = document.getElementById('tr-from');
-const trTo       = document.getElementById('tr-to');
-const trFromLbl  = document.getElementById('tr-from-label');
-const trToLbl    = document.getElementById('tr-to-label');
-const trSwap     = document.getElementById('tr-swap');
-let trBusy = false;
-
-function updateLangLabels() {
-  trFromLbl.innerHTML = `<span class="lang-dot d-saffron"></span>${trFrom.value}`;
-  trToLbl.innerHTML   = `<span class="lang-dot d-teal"></span>${trTo.value}`;
-}
-trFrom.addEventListener('change', updateLangLabels);
-trTo.addEventListener('change', updateLangLabels);
-
-trSwap.addEventListener('click', () => {
-  // swap select values where possible
-  const fromVal = trFrom.value;
-  const toVal   = trTo.value;
-  // check if toVal exists in trFrom options
-  const fromOpts = [...trFrom.options].map(o=>o.value);
-  const toOpts   = [...trTo.options].map(o=>o.value);
-  if (toOpts.includes(fromVal) && fromOpts.includes(toVal)) {
-    trFrom.value = toVal; trTo.value = fromVal;
-  } else {
-    // fallback: try best match
-    if (fromOpts.includes(toVal)) trFrom.value = toVal;
-    if (toOpts.includes(fromVal)) trTo.value = fromVal;
+// ==================== ROUTER ====================
+const Router={
+  current:'dashboard',
+  go(view){
+    this.current=view;
+    document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===view));
+    const titles={dashboard:'Dashboard',tasks:'Tasks',bookmarks:'Bookmarks',vault:'Password Vault',contacts:'Contacts',activities:'Activity Log',settings:'Settings'};
+    document.getElementById('pageTitle').textContent=titles[view]||view;
+    const renderers={dashboard:Render.dashboard,tasks:Render.tasks,bookmarks:Render.bookmarks,vault:Render.vault,contacts:Render.contacts,activities:Render.activities,settings:Render.settings};
+    const content=document.getElementById('content');
+    content.innerHTML='<div class="fade-in">'+(renderers[view]?renderers[view]():'')+'</div>';
+    if(view==='tasks')setTimeout(Render.initTaskView,0);
+    if(view==='bookmarks')setTimeout(Render.initBookmarkView,0);
+    if(view==='vault')setTimeout(Render.initVaultView,0);
+    window.scrollTo(0,0);
+    if(window.innerWidth<=768){UI.toggleSidebar(false)}
   }
-  // also swap textarea contents
-  const tmp = trInput.value;
-  const outTxt = trOutput.classList.contains('ph') ? '' : trOutput.textContent;
-  trInput.value = outTxt;
-  clearSkel(trOutput, tmp || null, 'Translation will appear here…');
-  trInput.dispatchEvent(new Event('input'));
-  updateLangLabels();
-});
+};
 
-trInput.addEventListener('input', () => {
-  const l = trInput.value.length;
-  trChars.textContent = `${l} / 2000`;
-  trChars.classList.toggle('warn', l > 1800);
-  trBtn.disabled = l === 0 || trBusy;
-  hideErr(trError);
-});
-
-trClear.addEventListener('click', () => {
-  trInput.value = ''; trChars.textContent = '0 / 2000';
-  trBtn.disabled = true;
-  clearSkel(trOutput, null, 'Translation will appear here…');
-  trOutChars.textContent = '';
-  hideErr(trError);
-});
-
-trCopy.addEventListener('click', () => copyText(trOutput, trCopy));
-
-// example chips for translate
-document.getElementById('tr-ex1').addEventListener('click', () => {
-  trInput.value = 'Payment is overdue, please send it immediately';
-  trInput.dispatchEvent(new Event('input'));
-});
-document.getElementById('tr-ex2').addEventListener('click', () => {
-  trInput.value = 'Can we schedule a meeting tomorrow?';
-  trInput.dispatchEvent(new Event('input'));
-});
-document.getElementById('tr-ex3').addEventListener('click', () => {
-  trInput.value = 'aapka maal abhi tak nahi aaya';
-  trFrom.value = 'Hindi'; trTo.value = 'English'; updateLangLabels();
-  trInput.dispatchEvent(new Event('input'));
-});
-document.getElementById('tr-ex4').addEventListener('click', () => {
-  trInput.value = 'Mane discount joiye chhe';
-  trFrom.value = 'Gujarati'; trTo.value = 'English'; updateLangLabels();
-  trInput.dispatchEvent(new Event('input'));
-});
-
-async function doTranslate() {
-  const txt = trInput.value.trim();
-  if (!txt || trBusy) return;
-  trBusy = true; trBtn.disabled = true;
-  hideErr(trError);
-  skeleton(trOutput);
-
-  const sys = `You are a precise translator for Indian business communication.
-Translate the user's text from ${trFrom.value} to ${trTo.value}.
-Rules:
-- Preserve the exact meaning and business context.
-- If translating to English, use natural professional English.
-- If translating to Hindi, use Devanagari script with natural Hindi.
-- If translating to Gujarati, use Gujarati script.
-- For "Formal English", make it polished and business-appropriate.
-Return ONLY the translated text. No explanations, no notes, no markdown.`;
-
-  try {
-    const result = await callAI(sys, txt);
-    clearSkel(trOutput, result.trim(), '');
-    trOutChars.textContent = `${result.trim().length} chars`;
-  } catch(e) {
-    clearSkel(trOutput, null, 'Translation will appear here…');
-    showErr(trError, trErrorMsg, e.message || 'Something went wrong. Please try again.');
-  } finally {
-    trBusy = false;
-    trBtn.disabled = trInput.value.trim().length === 0;
+// ==================== RENDERERS ====================
+const Render={
+  dashboard(){
+    const data=Store.get();
+    const pending=data.tasks.filter(t=>t.status!=='Done').length;
+    const done=data.tasks.filter(t=>t.status==='Done').length;
+    const recentTasks=data.tasks.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+    const recentAct=data.activities.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).slice(0,5);
+    return `
+      <div class="grid grid-4" style="margin-bottom:24px">
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon" style="background:rgba(245,158,11,0.15);color:var(--warning)">${IC.task}</div></div><div class="stat-value">${pending}</div><div class="stat-label">Pending Tasks</div><div class="stat-change">+${data.tasks.filter(t=>t.status==='In Progress').length} In Progress</div></div>
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon" style="background:rgba(16,185,129,0.15);color:var(--success)">${IC.check}</div></div><div class="stat-value">${done}</div><div class="stat-label">Completed</div><div class="stat-change">${Math.round((done/data.tasks.length)*100)||0}% Success Rate</div></div>
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon" style="background:rgba(139,92,246,0.15);color:var(--accent)">${IC.bookmark}</div></div><div class="stat-value">${data.bookmarks.length}</div><div class="stat-label">Bookmarks</div><div class="stat-change">${new Set(data.bookmarks.flatMap(b=>b.tags)).size} projects</div></div>
+        <div class="stat-card"><div class="stat-header"><div class="stat-icon" style="background:rgba(59,130,246,0.15);color:var(--info)">${IC.contact}</div></div><div class="stat-value">${data.contacts.length}</div><div class="stat-label">Contacts</div><div class="stat-change">${data.contacts.filter(c=>c.tags.includes('Merlin')).length} Merlin team</div></div>
+      </div>
+      <div class="grid grid-2">
+        <div class="section"><div class="section-header"><div class="section-title">${IC.task} Recent Tasks</div><button class="btn btn-sm btn-secondary" onclick="Router.go('tasks')">View All</button></div><div class="section-body"><div class="table-container"><table><tbody>
+          ${recentTasks.map(t=>`<tr><td><div class="cell-title">${t.title}</div><div class="cell-meta">${t.date} &bull; ${t.owner}</div></td><td><span class="badge-pill bg-${t.status.toLowerCase().replace(' ','')}">${t.status}</span></td><td><span class="badge-pill bg-${t.priority.toLowerCase()}">${t.priority}</span></td></tr>`).join('')}
+        </tbody></table></div></div></div>
+        <div class="section"><div class="section-header"><div class="section-title">${IC.activity} Recent Activity</div><button class="btn btn-sm btn-secondary" onclick="Router.go('activities')">View All</button></div><div class="section-body"><div class="activity-list" style="gap:12px">
+          ${recentAct.map(a=>`<div class="activity-item"><div class="activity-dot" style="border-color:var(--accent)">${IC.clock}</div><div class="activity-content"><div class="activity-header"><span class="activity-action">${a.action} ${a.entity}</span><span class="activity-time">${UI.timeAgo(a.timestamp)}</span></div><div class="activity-detail">${a.detail}</div></div></div>`).join('')}
+        </div></div></div>
+      </div>
+      <div class="section" style="margin-top:24px"><div class="section-header"><div class="section-title">${IC.bookmark} Quick Bookmarks</div><button class="btn btn-sm btn-secondary" onclick="Router.go('bookmarks')">View All</button></div><div class="section-body"><div class="bookmark-list">
+        ${data.bookmarks.slice(0,5).map(b=>`<div class="bookmark-item" onclick="window.open('${b.url}','_blank')"><div class="bookmark-fav">${b.favicon}</div><div class="bookmark-info"><div class="bookmark-title">${b.title}</div><div class="bookmark-url">${b.url}</div></div><div class="bookmark-tags">${b.tags.map(t=>`<span class="tag-pill" style="background:${UI.tagColor(t)}20;color:${UI.tagColor(t)};border-color:${UI.tagColor(t)}40">${t}</span>`).join('')}</div></div>`).join('')}
+      </div></div></div>
+    `;
+  },
+  tasks(){
+    return `
+      <div class="section">
+        <div class="section-header"><div class="section-title">${IC.task} Tasks</div><div style="display:flex;gap:10px;align-items:center"><div class="view-toggle"><button class="active" onclick="Render.setTaskView('table')" id="btnTableView">Table</button><button onclick="Render.setTaskView('kanban')" id="btnKanbanView">Kanban</button></div><button class="btn btn-sm" onclick="UI.openTaskModal()">${IC.plus} Add Task</button></div></div>
+        <div class="section-body">
+          <div class="filter-bar">
+            <input type="text" placeholder="Search tasks..." id="taskSearch" oninput="Render.filterTasks()">
+            <select id="taskStatusFilter" onchange="Render.filterTasks()"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Done</option><option>Critical</option></select>
+            <select id="taskPriorityFilter" onchange="Render.filterTasks()"><option value="">All Priorities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select>
+            <select id="taskTypeFilter" onchange="Render.filterTasks()"><option value="">All Types</option><option>Changes</option><option>Validation</option><option>Issues</option><option>Test</option><option>Task</option><option>Meeting</option></select>
+          </div>
+          <div id="taskContainer"></div>
+        </div>
+      </div>
+    `;
+  },
+  initTaskView(){Render.taskView='table';Render.filterTasks();},
+  setTaskView(view){Render.taskView=view;document.getElementById('btnTableView').classList.toggle('active',view==='table');document.getElementById('btnKanbanView').classList.toggle('active',view==='kanban');Render.filterTasks();},
+  filterTasks(){
+    const data=Store.get();
+    const search=(document.getElementById('taskSearch').value||'').toLowerCase();
+    const status=document.getElementById('taskStatusFilter').value;
+    const priority=document.getElementById('taskPriorityFilter').value;
+    const type=document.getElementById('taskTypeFilter').value;
+    let filtered=data.tasks.filter(t=>{
+      return (!search||t.title.toLowerCase().includes(search)||(t.text&&t.text.toLowerCase().includes(search)))&&(!status||t.status===status)&&(!priority||t.priority===priority)&&(!type||t.type===type);
+    });
+    const container=document.getElementById('taskContainer');
+    if(Render.taskView==='table'){
+      container.innerHTML=`<div class="table-container"><table><thead><tr><th>Task</th><th>Date</th><th>Owner</th><th>Status</th><th>Priority</th><th>Type</th><th>Notes</th><th style="width:80px"></th></tr></thead><tbody>
+        ${filtered.map(t=>`<tr><td><div class="cell-title">${t.title}</div></td><td>${t.date}</td><td>${t.owner}</td><td><span class="badge-pill bg-${t.status.toLowerCase().replace(' ','')}">${t.status}</span></td><td><span class="badge-pill bg-${t.priority.toLowerCase()}">${t.priority}</span></td><td><span class="badge-pill bg-${t.type.toLowerCase().replace(/s$/,'')}">${t.type}</span></td><td><span style="color:var(--text-muted);font-size:12px">${t.text||'-'}</span></td><td><div class="row-actions"><button onclick="UI.editTask(${t.id})">${IC.edit}</button><button onclick="UI.deleteTask(${t.id})">${IC.trash}</button></div></td></tr>`).join('')}
+      </tbody></table></div>`;
+    }else{
+      const cols={todo:'To Do','in progress':'In Progress',done:'Done',critical:'Critical'};
+      container.innerHTML=`<div class="kanban">${Object.entries(cols).map(([key,label])=>{
+        const colTasks=filtered.filter(t=>t.status.toLowerCase()===key);
+        return `<div class="kanban-col"><div class="kanban-header"><span>${label}</span><span class="kanban-count">${colTasks.length}</span></div><div class="kanban-body" ondragover="event.preventDefault()" ondrop="Render.dropTask(event,'${label}')">
+          ${colTasks.map(t=>`<div class="kanban-card" draggable="true" ondragstart="Render.dragTask(event,${t.id})"><div class="kanban-card-title">${t.title}</div><div class="kanban-card-meta">${t.date} &bull; ${t.owner}</div><div class="kanban-card-tags"><span class="badge-pill bg-${t.priority.toLowerCase()}">${t.priority}</span><span class="badge-pill bg-${t.type.toLowerCase().replace(/s$/,'')}">${t.type}</span></div></div>`).join('')}
+        </div></div>`;
+      }).join('')}</div>`;
+    }
+  },
+  dragTask(e,id){e.dataTransfer.setData('taskId',id);},
+  dropTask(e,status){
+    e.preventDefault();
+    const id=parseInt(e.dataTransfer.getData('taskId'));
+    Store.update(d=>{const t=d.tasks.find(x=>x.id===id);if(t){t.status=status;UI.logActivity('Moved','task',id,`Task moved to ${status}`);}});
+    Render.filterTasks();
+  },
+  bookmarks(){
+    return `
+      <div class="section">
+        <div class="section-header"><div class="section-title">${IC.bookmark} Bookmarks</div><div style="display:flex;gap:10px;align-items:center"><div class="view-toggle"><button class="active" onclick="Render.setBookmarkView('list')" id="btnListView">List</button><button onclick="Render.setBookmarkView('grid')" id="btnGridView">Grid</button></div><button class="btn btn-sm" onclick="UI.openBookmarkModal()">${IC.plus} Add</button></div></div>
+        <div class="section-body">
+          <div class="filter-bar">
+            <input type="text" placeholder="Search bookmarks..." id="bookmarkSearch" oninput="Render.filterBookmarks()" style="max-width:400px">
+            <select id="bookmarkTagFilter" onchange="Render.filterBookmarks()"><option value="">All Tags</option></select>
+          </div>
+          <div id="bookmarkContainer"></div>
+        </div>
+      </div>
+    `;
+  },
+  initBookmarkView(){
+    Render.bookmarkView='list';
+    const data=Store.get();
+    const tags=[...new Set(data.bookmarks.flatMap(b=>b.tags))];
+    const select=document.getElementById('bookmarkTagFilter');
+    if(select){select.innerHTML='<option value="">All Tags</option>'+tags.map(t=>`<option>${t}</option>`).join('');}
+    Render.filterBookmarks();
+  },
+  setBookmarkView(view){Render.bookmarkView=view;document.getElementById('btnListView').classList.toggle('active',view==='list');document.getElementById('btnGridView').classList.toggle('active',view==='grid');Render.filterBookmarks();},
+  filterBookmarks(){
+    const data=Store.get();
+    const search=(document.getElementById('bookmarkSearch').value||'').toLowerCase();
+    const tag=document.getElementById('bookmarkTagFilter').value;
+    let filtered=data.bookmarks.filter(b=>{return (!search||b.title.toLowerCase().includes(search)||b.url.toLowerCase().includes(search))&&(!tag||b.tags.includes(tag));});
+    const container=document.getElementById('bookmarkContainer');
+    if(Render.bookmarkView==='list'){
+      container.innerHTML=`<div class="bookmark-list">
+        ${filtered.map(b=>`<div class="bookmark-item"><div class="bookmark-fav">${b.favicon}</div><div class="bookmark-info"><div class="bookmark-title">${b.title}</div><div class="bookmark-url">${b.url}</div></div><div class="bookmark-tags">${b.tags.map(t=>`<span class="tag-pill" style="background:${UI.tagColor(t)}20;color:${UI.tagColor(t)};border-color:${UI.tagColor(t)}40">${t}</span>`).join('')}</div><div class="bookmark-actions"><button onclick="window.open('${b.url}','_blank')" title="Open">${IC.eye}</button><button onclick="UI.editBookmark(${b.id})" title="Edit">${IC.edit}</button><button onclick="UI.deleteBookmark(${b.id})" title="Delete">${IC.trash}</button></div></div>`).join('')}
+      </div>`;
+    }else{
+      container.innerHTML=`<div class="contact-grid">
+        ${filtered.map(b=>`<div class="contact-card" onclick="window.open('${b.url}','_blank')"><div style="font-size:48px;margin-bottom:12px">${b.favicon}</div><div class="contact-name">${b.title}</div><div class="contact-role" style="word-break:break-all;font-size:12px">${b.url}</div><div class="contact-tags">${b.tags.map(t=>`<span class="tag-pill" style="background:${UI.tagColor(t)}20;color:${UI.tagColor(t)};border-color:${UI.tagColor(t)}40">${t}</span>`).join('')}</div></div>`).join('')}
+      </div>`;
+    }
+  },
+  vault(){
+    return `
+      <div class="section">
+        <div class="section-header"><div class="section-title">${IC.vault} Password Vault</div><button class="btn btn-sm" onclick="UI.openCredentialModal()">${IC.plus} Add Credential</button></div>
+        <div class="section-body" style="padding:0">
+          <div class="vault-score">
+            <div class="score-ring"><svg width="80" height="80" viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="36"/><circle class="fill" cx="40" cy="40" r="36"/></svg><div class="score-value">80</div></div>
+            <div class="score-info"><div class="score-title">Security Score</div><div class="score-desc">Your vault is in good shape. 2 passwords could be stronger. Enable 2FA where possible.</div></div>
+            <button class="btn btn-sm" onclick="UI.openPasswordGenerator()">Password Generator</button>
+          </div>
+          <div class="filter-bar" style="border-bottom:none"><input type="text" placeholder="Search credentials..." id="vaultSearch" oninput="Render.filterVault()" style="max-width:400px"><select id="vaultCategoryFilter" onchange="Render.filterVault()"><option value="">All Categories</option><option>Work</option><option>Personal</option><option>Development</option></select></div>
+          <div id="vaultContainer"></div>
+        </div>
+      </div>
+    `;
+  },
+  initVaultView(){Render.filterVault();},
+  filterVault(){
+    const data=Store.get();
+    const search=(document.getElementById('vaultSearch').value||'').toLowerCase();
+    const cat=document.getElementById('vaultCategoryFilter').value;
+    let filtered=data.credentials.filter(c=>{return (!search||c.title.toLowerCase().includes(search)||c.username.toLowerCase().includes(search))&&(!cat||c.category===cat);});
+    document.getElementById('vaultContainer').innerHTML=`<div class="vault-grid">
+      ${filtered.map(c=>`<div class="vault-card"><div class="vault-card-header"><div class="vault-card-fav">${c.category==='Work'?'💼':c.category==='Personal'?'👤':'💻'}</div><div><div class="vault-card-title">${c.title}</div><div class="vault-card-meta">${c.category} &bull; ${c.url.replace('https://','').replace('http://','').split('/')[0]}</div></div></div>
+      <div class="vault-field"><div class="vault-field-label">Username</div><div class="vault-field-value"><span>${c.username}</span><button onclick="UI.copy('${c.username}')">${IC.copy}</button></div></div>
+      <div class="vault-field"><div class="vault-field-label">Password</div><div class="vault-field-value"><span class="masked" id="pwd-${c.id}">${c.password}</span><button onclick="UI.togglePassword(${c.id})" id="eye-${c.id}">${IC.eye}</button><button onclick="UI.copy('${c.password}')">${IC.copy}</button></div></div>
+      ${c.notes?`<div style="font-size:12px;color:var(--text-muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">${c.notes}</div>`:''}
+      <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end"><button class="btn btn-sm btn-secondary" onclick="UI.editCredential(${c.id})">Edit</button><button class="btn btn-sm btn-danger" onclick="UI.deleteCredential(${c.id})">Delete</button></div></div>`).join('')}
+    </div>`;
+  },
+  contacts(){
+    const data=Store.get();
+    return `
+      <div class="section">
+        <div class="section-header"><div class="section-title">${IC.contact} Contacts</div><button class="btn btn-sm" onclick="UI.openContactModal()">${IC.plus} Add Contact</button></div>
+        <div class="section-body" style="padding:0">
+          <div class="filter-bar" style="border-bottom:none"><input type="text" placeholder="Search contacts..." id="contactSearch" oninput="Render.filterContacts()" style="max-width:400px"><select id="contactTagFilter" onchange="Render.filterContacts()"><option value="">All Tags</option>${[...new Set(data.contacts.flatMap(c=>c.tags))].map(t=>`<option>${t}</option>`).join('')}</select></div>
+          <div id="contactContainer"></div>
+        </div>
+      </div>
+    `;
+  },
+  filterContacts(){
+    const data=Store.get();
+    const search=(document.getElementById('contactSearch').value||'').toLowerCase();
+    const tag=document.getElementById('contactTagFilter').value;
+    let filtered=data.contacts.filter(c=>{return (!search||c.name.toLowerCase().includes(search)||c.company.toLowerCase().includes(search)||c.email.toLowerCase().includes(search))&&(!tag||c.tags.includes(tag));});
+    document.getElementById('contactContainer').innerHTML=`<div class="contact-grid">
+      ${filtered.map(c=>`<div class="contact-card" onclick="UI.viewContact(${c.id})"><div class="contact-avatar">${c.name.slice(0,2).toUpperCase()}</div><div class="contact-name">${c.name}</div><div class="contact-role">${c.role} at ${c.company}</div><div class="contact-detail">${IC.mail} ${c.email}</div><div class="contact-detail">${IC.phone} ${c.phone}</div><div class="contact-tags">${c.tags.map(t=>`<span class="tag-pill" style="background:${UI.tagColor(t)}20;color:${UI.tagColor(t)};border-color:${UI.tagColor(t)}40">${t}</span>`).join('')}</div><div class="contact-footer"><span>Last contacted: ${c.lastContacted}</span><span>${c.interactions.length} interactions</span></div></div>`).join('')}
+    </div>`;
+  },
+  activities(){
+    const data=Store.get();
+    const sorted=data.activities.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+    return `
+      <div class="section"><div class="section-header"><div class="section-title">${IC.activity} Activity Log</div></div>
+        <div class="section-body" style="padding:0"><div class="activity-list">
+          ${sorted.length?sorted.map(a=>`<div class="activity-item"><div class="activity-dot" style="border-color:${a.entity==='task'?'var(--warning)':a.entity==='bookmark'?'var(--accent)':a.entity==='contact'?'var(--info)':'var(--success)'}">${a.entity==='task'?IC.task:a.entity==='bookmark'?IC.bookmark:a.entity==='contact'?IC.contact:IC.check}</div><div class="activity-content"><div class="activity-header"><span class="activity-action">${a.action} ${a.entity}</span><span class="activity-time">${UI.formatDate(a.timestamp)}</span></div><div class="activity-detail">${a.detail}</div></div></div>`).join(''):`<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No activities yet</div><div class="empty-desc">Your actions will be logged here automatically.</div></div>`}
+        </div></div>
+      </div>
+    `;
+  },
+  settings(){
+    const data=Store.get();
+    return `
+      <div class="grid grid-2">
+        <div class="section"><div class="section-header"><div class="section-title">${IC.contact} Profile</div></div><div class="section-body" style="padding:24px">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px"><div style="width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff">${Auth.currentUser.avatar||Auth.currentUser.name.slice(0,2).toUpperCase()}</div><div><div style="font-size:18px;font-weight:700">${Auth.currentUser.name}</div><div style="color:var(--text-muted)">${Auth.currentUser.email}</div><div style="color:var(--text-muted);font-size:13px">${Auth.currentUser.role}</div></div></div>
+          <div class="form-group"><label>Display Name</label><input type="text" id="setName" value="${Auth.currentUser.name}"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="setEmail" value="${Auth.currentUser.email}"></div>
+          <div class="form-group"><label>Role</label><input type="text" id="setRole" value="${Auth.currentUser.role}"></div>
+          <button class="btn btn-sm" onclick="UI.saveProfile()" style="width:auto">Save Profile</button>
+        </div></div>
+        <div class="section"><div class="section-header"><div class="section-title">${IC.settings} Data & Security</div></div><div class="section-body" style="padding:24px">
+          <div style="background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:var(--radius-sm);padding:14px;margin-bottom:20px;display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--text-secondary);line-height:1.5">${IC.alert}<div><strong>Security Notice:</strong> This prototype stores data in your browser's localStorage. For production use, migrate to a backend with AES-256 encryption for credentials.</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <button class="btn btn-secondary btn-sm" onclick="UI.exportData()" style="width:auto;justify-content:flex-start">${IC.copy} Export Data (JSON)</button>
+            <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importFile').click()" style="width:auto;justify-content:flex-start">${IC.plus} Import Data (JSON)</button>
+            <input type="file" id="importFile" style="display:none" accept=".json" onchange="UI.importData(this)">
+            <button class="btn btn-danger btn-sm" onclick="UI.clearAllData()" style="width:auto;justify-content:flex-start">${IC.trash} Reset All Data</button>
+          </div>
+        </div></div>
+      </div>
+    `;
   }
-}
+};
 
-trBtn.addEventListener('click', doTranslate);
-trGo.addEventListener('click', doTranslate);
-trInput.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='Enter') doTranslate(); });
+// ==================== UI CONTROLLER ====================
+const UI={
+  tagColor(tag){
+    const map={Raipur:'#8b5cf6',Merlin:'#6366f1',Onix:'#3b82f6',Deon:'#14b8a6',Roha:'#f43f5e',Rayzon:'#f97316',VGROWN:'#22c55e','SRC Gandai':'#ef4444',SRC:'#eab308',GFL:'#06b6d4',SCADA:'#64748b',Trinity:'#a855f7',Variate:'#ec4899',default:'#64748b'};
+    return map[tag]||map.default;
+  },
+  toast(message,type='info'){
+    const container=document.getElementById('toastContainer');
+    const toast=document.createElement('div');
+    toast.className=`toast toast-${type}`;
+    toast.innerHTML=`${type==='success'?IC.check:type==='error'?IC.alert:IC.info}<span class="toast-message">${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(()=>{toast.style.opacity='0';toast.style.transform='translateX(30px)';setTimeout(()=>toast.remove(),300)},3500);
+  },
+  formatDate(ts){
+    const d=new Date(ts);
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  },
+  timeAgo(ts){
+    const diff=Date.now()-new Date(ts).getTime();
+    const mins=Math.floor(diff/60000);
+    if(mins<<1)return 'Just now';
+    if(mins<<60)return `${mins}m ago`;
+    const hrs=Math.floor(mins/60);
+    if(hrs<<24)return `${hrs}h ago`;
+    const days=Math.floor(hrs/24);
+    if(days<<7)return `${days}d ago`;
+    return UI.formatDate(ts);
+  },
+  toggleSidebar(force){
+    const sb=document.getElementById('sidebar');
+    const ov=document.getElementById('mobileOverlay');
+    const isOpen=sb.classList.contains('open');
+    const shouldOpen=force!==undefined?force:!isOpen;
+    sb.classList.toggle('open',shouldOpen);
+    ov.classList.toggle('active',shouldOpen);
+  },
+  showModal(title,content,actionText,actionFn){
+    document.getElementById('modalTitle').textContent=title;
+    document.getElementById('modalBody').innerHTML=content;
+    const btn=document.getElementById('modalActionBtn');
+    btn.textContent=actionText||'Save';
+    btn.onclick=actionFn||(()=>UI.hideModal());
+    document.getElementById('modalOverlay').classList.add('active');
+  },
+  hideModal(){document.getElementById('modalOverlay').classList.remove('active');},
+  closeModal(e){if(e.target===document.getElementById('modalOverlay'))UI.hideModal();},
+  toggleFab(){document.getElementById('fabMenu').classList.toggle('active');},
+  quickAdd(type){
+    document.getElementById('fabMenu').classList.remove('active');
+    if(type==='task')UI.openTaskModal();
+    if(type==='bookmark')UI.openBookmarkModal();
+    if(type==='credential')UI.openCredentialModal();
+    if(type==='contact')UI.openContactModal();
+  },
+  copy(text){
+    navigator.clipboard.writeText(text).then(()=>UI.toast('Copied to clipboard','success')).catch(()=>UI.toast('Copy failed','error'));
+  },
+  togglePassword(id){
+    const el=document.getElementById(`pwd-${id}`);
+    const btn=document.getElementById(`eye-${id}`);
+    if(el.classList.contains('masked')){el.classList.remove('masked');btn.innerHTML=IC.eyeOff;}
+    else{el.classList.add('masked');btn.innerHTML=IC.eye;}
+  },
+  logActivity(action,entity,entityId,detail){
+    Store.update(d=>{d.activities.unshift({id:Date.now(),action,entity,entityId,detail,timestamp:new Date().toISOString()});if(d.activities.length>100)d.activities.pop();});
+  },
+  openTaskModal(taskId=null){
+    const data=Store.get();
+    const task=taskId?data.tasks.find(t=>t.id===taskId):null;
+    const isEdit=!!task;
+    UI.showModal(isEdit?'Edit Task':'New Task',`
+      <div class="form-row"><div class="form-group"><label>Task Title</label><input type="text" id="taskTitle" value="${task?task.title:''}"></div><div class="form-group"><label>Date</label><input type="date" id="taskDate" value="${task?task.date:new Date().toISOString().split('T')[0]}"></div></div>
+      <div class="form-row"><div class="form-group"><label>Owner</label><input type="text" id="taskOwner" value="${task?task.owner:Auth.currentUser.name}"></div><div class="form-group"><label>Status</label><select id="taskStatus"><option>To Do</option><option>In Progress</option><option>Done</option><option>Critical</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Priority</label><select id="taskPriority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div><div class="form-group"><label>Type</label><select id="taskType"><option>Task</option><option>Issues</option><option>Validation</option><option>Test</option><option>Changes</option><option>Meeting</option></select></div></div>
+      <div class="form-group"><label>Notes / Description</label><textarea id="taskText">${task?task.text:''}</textarea></div>
+    `,isEdit?'Update':'Create',()=>{
+      const title=document.getElementById('taskTitle').value;
+      if(!title){UI.toast('Title is required','error');return}
+      Store.update(d=>{
+        if(isEdit){
+          const t=d.tasks.find(x=>x.id===taskId);
+          Object.assign(t,{title,date:document.getElementById('taskDate').value,owner:document.getElementById('taskOwner').value,status:document.getElementById('taskStatus').value,priority:document.getElementById('taskPriority').value,type:document.getElementById('taskType').value,text:document.getElementById('taskText').value});
+          UI.logActivity('Updated','task',taskId,`Updated task: ${title}`);
+        }else{
+          const newTask={id:Date.now(),title,date:document.getElementById('taskDate').value,owner:document.getElementById('taskOwner').value,status:document.getElementById('taskStatus').value,priority:document.getElementById('taskPriority').value,type:document.getElementById('taskType').value,text:document.getElementById('taskText').value};
+          d.tasks.unshift(newTask);
+          UI.logActivity('Created','task',newTask.id,`Created task: ${title}`);
+        }
+      });
+      UI.hideModal();UI.toast(isEdit?'Task updated':'Task created','success');
+      if(Router.current==='tasks')Render.filterTasks();else if(Router.current==='dashboard')Router.go('dashboard');
+    });
+    if(task){document.getElementById('taskStatus').value=task.status;document.getElementById('taskPriority').value=task.priority;document.getElementById('taskType').value=task.type;}
+  },
+  editTask(id){UI.openTaskModal(id);},
+  deleteTask(id){
+    if(!confirm('Delete this task?'))return;
+    Store.update(d=>{d.tasks=d.tasks.filter(t=>t.id!==id);});
+    UI.logActivity('Deleted','task',id,'Deleted a task');
+    UI.toast('Task deleted','success');Render.filterTasks();
+  },
+  openBookmarkModal(bmId=null){
+    const data=Store.get();
+    const bm=bmId?data.bookmarks.find(b=>b.id===bmId):null;
+    const isEdit=!!bm;
+    UI.showModal(isEdit?'Edit Bookmark':'New Bookmark',`
+      <div class="form-group"><label>Title</label><input type="text" id="bmTitle" value="${bm?bm.title:''}"></div>
+      <div class="form-group"><label>URL</label><input type="url" id="bmUrl" value="${bm?bm.url:'https://'}"></div>
+      <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="bmTags" value="${bm?bm.tags.join(', '):''}"></div>
+      <div class="form-group"><label>Icon Emoji</label><input type="text" id="bmFav" value="${bm?bm.favicon:'🌐'}" maxlength="2"></div>
+    `,isEdit?'Update':'Save',()=>{
+      const title=document.getElementById('bmTitle').value;
+      const url=document.getElementById('bmUrl').value;
+      if(!title||!url){UI.toast('Title and URL required','error');return}
+      const tags=document.getElementById('bmTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+      Store.update(d=>{
+        if(isEdit){
+          const b=d.bookmarks.find(x=>x.id===bmId);
+          Object.assign(b,{title,url,tags,favicon:document.getElementById('bmFav').value});
+          UI.logActivity('Updated','bookmark',bmId,`Updated bookmark: ${title}`);
+        }else{
+          const newBm={id:Date.now(),title,url,tags,favicon:document.getElementById('bmFav').value};
+          d.bookmarks.unshift(newBm);
+          UI.logActivity('Created','bookmark',newBm.id,`Added bookmark: ${title}`);
+        }
+      });
+      UI.hideModal();UI.toast(isEdit?'Bookmark updated':'Bookmark saved','success');
+      if(Router.current==='bookmarks')Render.filterBookmarks();else if(Router.current==='dashboard')Router.go('dashboard');
+    });
+  },
+  editBookmark(id){UI.openBookmarkModal(id);},
+  deleteBookmark(id){
+    if(!confirm('Delete this bookmark?'))return;
+    Store.update(d=>{d.bookmarks=d.bookmarks.filter(b=>b.id!==id);});
+    UI.logActivity('Deleted','bookmark',id,'Deleted a bookmark');
+    UI.toast('Bookmark deleted','success');Render.filterBookmarks();
+  },
+  openCredentialModal(credId=null){
+    const data=Store.get();
+    const cred=credId?data.credentials.find(c=>c.id===credId):null;
+    const isEdit=!!cred;
+    UI.showModal(isEdit?'Edit Credential':'New Credential',`
+      <div class="form-group"><label>Title</label><input type="text" id="credTitle" value="${cred?cred.title:''}"></div>
+      <div class="form-row"><div class="form-group"><label>Username</label><input type="text" id="credUser" value="${cred?cred.username:''}"></div><div class="form-group"><label>Password</label><input type="text" id="credPass" value="${cred?cred.password:''}"></div></div>
+      <div class="form-group"><label>Website URL</label><input type="url" id="credUrl" value="${cred?cred.url:'https://'}"></div>
+      <div class="form-row"><div class="form-group"><label>Category</label><select id="credCat"><option>Work</option><option>Personal</option><option>Development</option></select></div></div>
+      <div class="form-group"><label>Notes</label><textarea id="credNotes">${cred?cred.notes:''}</textarea></div>
+    `,isEdit?'Update':'Save',()=>{
+      const title=document.getElementById('credTitle').value;
+      if(!title){UI.toast('Title is required','error');return}
+      Store.update(d=>{
+        if(isEdit){
+          const c=d.credentials.find(x=>x.id===credId);
+          Object.assign(c,{title,username:document.getElementById('credUser').value,password:document.getElementById('credPass').value,url:document.getElementById('credUrl').value,category:document.getElementById('credCat').value,notes:document.getElementById('credNotes').value});
+          UI.logActivity('Updated','credential',credId,`Updated credential: ${title}`);
+        }else{
+          const newCred={id:Date.now(),title,username:document.getElementById('credUser').value,password:document.getElementById('credPass').value,url:document.getElementById('credUrl').value,category:document.getElementById('credCat').value,notes:document.getElementById('credNotes').value};
+          d.credentials.unshift(newCred);
+          UI.logActivity('Created','credential',newCred.id,`Added credential: ${title}`);
+        }
+      });
+      UI.hideModal();UI.toast(isEdit?'Credential updated':'Credential saved','success');
+      if(Router.current==='vault')Render.filterVault();
+    });
+    if(cred)document.getElementById('credCat').value=cred.category;
+  },
+  editCredential(id){UI.openCredentialModal(id);},
+  deleteCredential(id){
+    if(!confirm('Delete this credential?'))return;
+    Store.update(d=>{d.credentials=d.credentials.filter(c=>c.id!==id);});
+    UI.logActivity('Deleted','credential',id,'Deleted a credential');
+    UI.toast('Credential deleted','success');Render.filterVault();
+  },
+  openPasswordGenerator(){
+    const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let pwd='';
+    for(let i=0;i<<16;i++)pwd+=chars[Math.floor(Math.random()*chars.length)];
+    UI.showModal('Password Generator',`
+      <div class="form-group"><label>Generated Password</label><div class="vault-field-value"><span id="genPwd">${pwd}</span><button onclick="UI.copy('${pwd}')">${IC.copy}</button></div></div>
+      <div class="form-hint">This is a client-side generated password for demo purposes. Use a cryptographically secure generator in production.</div>
+    `,'Regenerate',()=>{
+      let newPwd='';
+      for(let i=0;i<<16;i++)newPwd+=chars[Math.floor(Math.random()*chars.length)];
+      document.getElementById('genPwd').textContent=newPwd;
+    });
+  },
+  openContactModal(contactId=null){
+    const data=Store.get();
+    const c=contactId?data.contacts.find(x=>x.id===contactId):null;
+    const isEdit=!!c;
+    UI.showModal(isEdit?'Edit Contact':'New Contact',`
+      <div class="form-row"><div class="form-group"><label>Name</label><input type="text" id="cName" value="${c?c.name:''}"></div><div class="form-group"><label>Email</label><input type="email" id="cEmail" value="${c?c.email:''}"></div></div>
+      <div class="form-row"><div class="form-group"><label>Phone</label><input type="text" id="cPhone" value="${c?c.phone:''}"></div><div class="form-group"><label>Company</label><input type="text" id="cCompany" value="${c?c.company:''}"></div></div>
+      <div class="form-row"><div class="form-group"><label>Role</label><input type="text" id="cRole" value="${c?c.role:''}"></div><div class="form-group"><label>Tags (comma separated)</label><input type="text" id="cTags" value="${c?c.tags.join(', '):''}"></div></div>
+      <div class="form-group"><label>Notes</label><textarea id="cNotes">${c?c.notes:''}</textarea></div>
+    `,isEdit?'Update':'Save',()=>{
+      const name=document.getElementById('cName').value;
+      if(!name){UI.toast('Name is required','error');return}
+      const tags=document.getElementById('cTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+      Store.update(d=>{
+        if(isEdit){
+          const x=d.contacts.find(x=>x.id===contactId);
+          Object.assign(x,{name,email:document.getElementById('cEmail').value,phone:document.getElementById('cPhone').value,company:document.getElementById('cCompany').value,role:document.getElementById('cRole').value,tags,notes:document.getElementById('cNotes').value});
+          UI.logActivity('Updated','contact',contactId,`Updated contact: ${name}`);
+        }else{
+          const newC={id:Date.now(),name,email:document.getElementById('cEmail').value,phone:document.getElementById('cPhone').value,company:document.getElementById('cCompany').value,role:document.getElementById('cRole').value,tags,notes:document.getElementById('cNotes').value,lastContacted:new Date().toISOString().split('T')[0],interactions:[]};
+          d.contacts.unshift(newC);
+          UI.logActivity('Created','contact',newC.id,`Added contact: ${name}`);
+        }
+      });
+      UI.hideModal();UI.toast(isEdit?'Contact updated':'Contact saved','success');
+      if(Router.current==='contacts')Render.filterContacts();else if(Router.current==='dashboard')Router.go('dashboard');
+    });
+  },
+  viewContact(id){
+    const data=Store.get();
+    const c=data.contacts.find(x=>x.id===id);
+    if(!c)return;
+    UI.showModal(c.name,`
+      <div style="display:flex;gap:16px;margin-bottom:20px;align-items:center">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff">${c.name.slice(0,2).toUpperCase()}</div>
+        <div><div style="font-size:18px;font-weight:700">${c.name}</div><div style="color:var(--text-muted)">${c.role} at ${c.company}</div></div>
+      </div>
+      <div class="form-row"><div class="contact-detail">${IC.mail} ${c.email}</div><div class="contact-detail">${IC.phone} ${c.phone}</div></div>
+      <div style="margin:16px 0;padding:14px;background:var(--bg-tertiary);border-radius:var(--radius-sm);border:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);margin-bottom:10px">Interaction Timeline</div>
+        <div class="activity-list" style="gap:10px">
+          ${c.interactions.length?c.interactions.map(i=>`<div class="activity-item" style="padding-left:24px"><div class="activity-dot" style="width:14px;height:14px;left:0;border-color:var(--info)">${IC.check}</div><div class="activity-content" style="padding:10px 12px"><div class="activity-header"><span class="activity-action">${i.type}</span><span class="activity-time">${i.date}</span></div><div class="activity-detail">${i.note}</div></div></div>`).join(''):'<div style="font-size:13px;color:var(--text-muted)">No interactions recorded yet.</div>'}
+        </div>
+      </div>
+      <div class="form-group"><label>Add Interaction</label><input type="text" id="newInteraction" placeholder="e.g., Called about LDMS issue"></div>
+    `,'Close',()=>UI.hideModal());
+  },
+  saveProfile(){
+    const name=document.getElementById('setName').value;
+    const email=document.getElementById('setEmail').value;
+    const role=document.getElementById('setRole').value;
+    Store.update(d=>{d.user={...d.user,name,email,role,avatar:name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)};});
+    Auth.currentUser={...Auth.currentUser,name,email,role};
+    localStorage.setItem(Auth.sessionKey,JSON.stringify(Auth.currentUser));
+    document.getElementById('sidebarName').textContent=name;
+    document.getElementById('sidebarAvatar').textContent=name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    UI.toast('Profile saved','success');
+  },
+  exportData(){
+    const data=Store.get();
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='command-center-backup.json';a.click();URL.revokeObjectURL(url);
+    UI.toast('Data exported','success');
+  },
+  importData(input){
+    const file=input.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      try{
+        const data=JSON.parse(e.target.result);
+        if(data.user&&Array.isArray(data.tasks)){
+          Store.save(data);
+          UI.toast('Data imported successfully','success');
+          Router.go('dashboard');
+        }else{UI.toast('Invalid file format','error')}
+      }catch(err){UI.toast('Import failed','error')}
+    };
+    reader.readAsText(file);
+    input.value='';
+  },
+  clearAllData(){
+    if(!confirm('WARNING: This will erase ALL data and reset to defaults. Are you sure?'))return;
+    localStorage.removeItem(Store.key);
+    Store.seed();
+    UI.toast('All data reset to defaults','success');
+    Router.go('dashboard');
+  },
+  showPalette(){document.getElementById('paletteOverlay').classList.add('active');document.getElementById('paletteInput').value='';document.getElementById('paletteInput').focus();UI.handlePaletteSearch('');},
+  closePalette(e){if(e.target===document.getElementById('paletteOverlay'))document.getElementById('paletteOverlay').classList.remove('active');},
+  handlePaletteSearch(q){
+    const data=Store.get();
+    const results=[];
+    if(!q){
+      results.push({icon:IC.dashboard,label:'Go to Dashboard',action:()=>Router.go('dashboard')});
+      results.push({icon:IC.task,label:'Go to Tasks',action:()=>Router.go('tasks')});
+      results.push({icon:IC.bookmark,label:'Go to Bookmarks',action:()=>Router.go('bookmarks')});
+      results.push({icon:IC.vault,label:'Go to Vault',action:()=>Router.go('vault')});
+      results.push({icon:IC.contact,label:'Go to Contacts',action:()=>Router.go('contacts')});
+    }else{
+      const lq=q.toLowerCase();
+      data.tasks.filter(t=>t.title.toLowerCase().includes(lq)).forEach(t=>results.push({icon:IC.task,label:`Task: ${t.title}`,action:()=>{Router.go('tasks');setTimeout(()=>{document.getElementById('taskSearch').value=q;Render.filterTasks()},50);}}));
+      data.bookmarks.filter(b=>b.title.toLowerCase().includes(lq)).forEach(b=>results.push({icon:IC.bookmark,label:`Bookmark: ${b.title}`,action:()=>{Router.go('bookmarks');setTimeout(()=>{document.getElementById('bookmarkSearch').value=q;Render.filterBookmarks()},50);}}));
+      data.contacts.filter(c=>c.name.toLowerCase().includes(lq)).forEach(c=>results.push({icon:IC.contact,label:`Contact: ${c.name}`,action:()=>{Router.go('contacts');setTimeout(()=>{document.getElementById('contactSearch').value=q;Render.filterContacts()},50);}}));
+    }
+    const container=document.getElementById('paletteResults');
+    if(!results.length){container.innerHTML='<div class="palette-empty">No results found</div>';return;}
+    container.innerHTML=results.map((r,i)=>`<div class="palette-item" onclick="UI.runPaletteAction(${i})" data-idx="${i}">${r.icon}<span>${r.label}</span></div>`).join('');
+    UI.paletteResults=results;
+  },
+  runPaletteAction(idx){const r=UI.paletteResults[idx];if(r){r.action();document.getElementById('paletteOverlay').classList.remove('active');}},
+  showNotifications(){UI.toast('Notifications: All systems operational. Integrate WebSockets for real-time updates.','info');},
+  handleGlobalSearch(q){if(!q||q.length<<3)return;document.getElementById('globalSearchInput').value='';UI.showPalette();setTimeout(()=>{document.getElementById('paletteInput').value=q;UI.handlePaletteSearch(q);},50);}
+};
 
-// ══════════════════════
-// TAB 3 — MAIL WRITER
-// ══════════════════════
-const mailBtn     = document.getElementById('mail-btn');
-const mailRegen   = document.getElementById('mail-regen');
-const mailCopy    = document.getElementById('mail-copy');
-const mailOutput  = document.getElementById('mail-output');
-const mailSubject = document.getElementById('mail-subject');
-const mailMeta    = document.getElementById('mail-meta');
-const mailError   = document.getElementById('mail-error');
-const mailErrorMsg= document.getElementById('mail-error-msg');
-let mailBusy = false;
-
-mailCopy.addEventListener('click', () => {
-  let text = '';
-  if (!mailSubject.classList.contains('show') && mailOutput.classList.contains('ph')) return;
-  if (mailSubject.classList.contains('show')) text += mailSubject.textContent + '\n\n';
-  text += mailOutput.textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = mailCopy.innerHTML;
-    mailCopy.classList.add('ok');
-    mailCopy.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 6.5l3.5 3.5 6-7" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    setTimeout(() => { mailCopy.classList.remove('ok'); mailCopy.innerHTML = orig; }, 2000);
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded',()=>{
+  Auth.check();
+  document.addEventListener('keydown',e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();UI.showPalette();}
+    if(e.key==='Escape'){UI.hideModal();document.getElementById('paletteOverlay').classList.remove('active');document.getElementById('fabMenu').classList.remove('active');}
+  });
+  window.addEventListener('resize',()=>{
+    const btn=document.getElementById('menuBtn');
+    if(btn)btn.style.display=window.innerWidth<=768?'flex':'none';
   });
 });
-
-async function doMail() {
-  if (mailBusy) return;
-  const to      = document.getElementById('mail-to').value.trim() || 'the recipient';
-  const purpose = document.getElementById('mail-purpose').value;
-  const tone    = document.getElementById('mail-tone').value;
-  const lang    = document.getElementById('mail-lang').value;
-  const points  = document.getElementById('mail-points').value.trim();
-
-  mailBusy = true;
-  mailBtn.disabled = true; mailRegen.disabled = true;
-  hideErr(mailError);
-  mailSubject.classList.remove('show');
-  mailOutput.classList.remove('ph');
-  mailOutput.innerHTML = `<div class="skeleton-wrap"><div class="skel" style="width:55%"></div><br><div class="skel" style="width:90%"></div><div class="skel" style="width:85%"></div><div class="skel" style="width:78%"></div><div class="skel" style="width:92%"></div><br><div class="skel" style="width:70%"></div><div class="skel" style="width:60%"></div><br><div class="skel" style="width:40%"></div></div>`;
-  mailMeta.textContent = 'Generating…';
-
-  const sys = `You are an expert business email writer for Indian entrepreneurs.
-Write a complete, professional email in ${lang}.
-Tone: ${tone}.
-Purpose: ${purpose}.
-Recipient: ${to}.
-${points ? `Key points/context provided by user:\n${points}` : ''}
-
-Rules:
-- Write a full email with proper greeting, body, and closing.
-- Include a clear, relevant subject line.
-- Be culturally appropriate for Indian business context.
-- Preserve all specific details (amounts, dates, names) exactly as provided.
-- Return ONLY valid JSON (no markdown):
-{"subject":"...","body":"..."}
-The body should be the complete email text including greeting and sign-off.`;
-
-  try {
-    const raw = await callAI(sys, `Write the email. To: ${to}. Purpose: ${purpose}. ${points ? 'Key points: ' + points : ''}`);
-    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    mailSubject.textContent = `Subject: ${parsed.subject}`;
-    mailSubject.classList.add('show');
-    mailOutput.classList.remove('ph');
-    mailOutput.innerHTML = `<pre>${parsed.body}</pre>`;
-    mailMeta.textContent = `~${parsed.body.split(' ').length} words`;
-    mailRegen.style.display = 'flex';
-  } catch(e) {
-    mailOutput.classList.add('ph');
-    mailOutput.innerHTML = 'Your generated email will appear here.<br><br>Fill in the details on the left and click <strong>Generate Email</strong>.';
-    mailSubject.classList.remove('show');
-    mailMeta.textContent = '';
-    showErr(mailError, mailErrorMsg, e.message || 'Something went wrong. Please try again.');
-  } finally {
-    mailBusy = false;
-    mailBtn.disabled = false;
-    if (mailRegen.style.display !== 'none') mailRegen.disabled = false;
-  }
-}
-
-mailBtn.addEventListener('click', doMail);
-mailRegen.addEventListener('click', doMail);
-</script>
-
-<!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-analytics.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBg6I0pSn0Wn6CQzUyyxAutgfQK6lyXhdM",
-    authDomain: "linguistpro-47fd8.firebaseapp.com",
-    projectId: "linguistpro-47fd8",
-    storageBucket: "linguistpro-47fd8.firebasestorage.app",
-    messagingSenderId: "363106526211",
-    appId: "1:363106526211:web:f67a8fac7f933216845a36",
-    measurementId: "G-X3Z53TVTDX"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
 </script>
 </body>
 </html>
